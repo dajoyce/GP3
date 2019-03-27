@@ -10,10 +10,7 @@
     "react": "^16.8.5",
     "react-bootstrap": "^1.0.0-beta.6",
     "react-dom": "^16.8.5",
-<<<<<<< HEAD
     "react-leaflet": "^2.2.1",
-=======
->>>>>>> master
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8"
   },

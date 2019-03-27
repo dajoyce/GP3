@@ -28,7 +28,8 @@
   },
   "dependencies": {
     "express": "^4.16.4",
+    "firebase": "^5.9.1",
     "if-env": "^1.0.4",
-    "firebase": "^5.9.1"
+    "mongoose": "^5.4.20"
   }
 }

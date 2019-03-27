@@ -2,9 +2,13 @@ import React, { Component } from 'react'
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
 
 export default class IvyMap extends Component {
-  state = {
-    coords: [35.787743, -78.644257],
-    zoom: 13
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      coords: props.coords,
+      zoom: 13
+    }
   }
 
   render() {

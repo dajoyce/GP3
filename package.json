@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/dajoyce/GP3/issues"
   },
-  "homepage": "https://github.com/dajoyce/GP3#readme"
+  "homepage": "https://github.com/dajoyce/GP3#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "firebase": "^5.9.1"
+  }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "gp3",
+  "version": "1.0.0",
+  "description": "Group Project 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dajoyce/GP3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dajoyce/GP3/issues"
+  },
+  "homepage": "https://github.com/dajoyce/GP3#readme"
+}

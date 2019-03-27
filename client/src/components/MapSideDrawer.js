@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import TripNotes from './MapDrawerTabs/TripNotes';
 
 const drawerWidth = 480;
 
@@ -64,6 +65,7 @@ class ClippedDrawer extends React.Component {
                             <Tab label="Trip Notes" />
                         </Tabs>
                     </Paper>
+                    {this.state.value === 2 ? <TripNotes /> : null}
                 </Drawer>
             </div>
         )

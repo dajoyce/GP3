@@ -12,6 +12,12 @@ export class IvyMap extends Component {
       zoom: props.zoom || 15,
       points: props.points || []
     }
+
+    this.places = new this.props.google.maps.places.PlacesService();
+  }
+
+  componentDidMount = () => {
+    // this.pla
   }
 
   render() {
@@ -34,4 +40,4 @@ export class IvyMap extends Component {
 
 export default GoogleApiWrapper({
   apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY
-})(IvyMap);
+})(IvyMap); 

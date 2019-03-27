@@ -1,27 +1,37 @@
-import React, { Component } from 'react'
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet'
+import React, { Component } from 'react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import axios from 'axios';
 
-export default class IvyMap extends Component {
+export class IvyMap extends Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      coords: props.coords,
-      zoom: 13
+      currentPoint: props.currentPoint || { lat: 35.7806, lng: -78.6369 },
+      zoom: props.zoom || 15,
+      points: props.points || []
     }
   }
 
   render() {
+    console.log(this.props.google);
     return (
-      <Map center={this.state.coords} zoom={13} style={{ height: "100vh" }}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+      <Map
+        google={this.props.google}
+        zoom={this.state.zoom}
+        initialCenter={this.state.currentPoint}>
+
+        <Marker
+          title={"Current Node"}
+          name={"Current Location"}
+          position={this.state.currentPoint}
         />
-        <Marker position={this.state.coords}>
-          <Popup>A pretty CSS3 popup.<br />Easily customizable.</Popup>
-        </Marker>
-      </Map >
+      </Map>
     )
   }
 }
+
+export default GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY
+})(IvyMap);

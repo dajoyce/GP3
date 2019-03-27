@@ -13,10 +13,8 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Header />
+          {/* <Header /> */}
           <Navbar />
-          <Card />
-          <Card />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/Login" component={Login} />

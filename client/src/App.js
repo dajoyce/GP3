@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
@@ -11,6 +12,7 @@ class App extends Component {
     return (
       <Router>
         <div>
+          <Navbar />
           <Switch>
             <Route exact path="/" component={IvyMap} />
             <Route exact path="/Login" component={Login} />

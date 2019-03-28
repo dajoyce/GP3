@@ -55,6 +55,7 @@ class Home extends Component {
             organic you probably haven't heard of them shaman keffiyeh. Microdosing taxidermy
             taiyaki, plaid pitchfork seitan distillery sartorial polaroid meh retro flexitarian.
           </Typography>
+          <Button>Sign Up</Button>
 
           <Button variant="contained" color="primary" className={classes.button}>
             Submit

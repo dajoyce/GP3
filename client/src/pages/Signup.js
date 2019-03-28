@@ -1,4 +1,31 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  dense: {
+    marginTop: 16,
+  },
+  menu: {
+    width: 200,
+  },
+});
+
+
+class Signup extends Component {
+  state = {
+    name: "Jane Smith",
+    multiline: "Controlled"
+  }
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -43,7 +70,7 @@ class Signup extends Component {
 
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value
+      [name]: event.target.value,
     });
   };
 
@@ -58,7 +85,7 @@ class Signup extends Component {
           label="Name"
           className={classes.textField}
           value={this.state.name}
-          onChange={this.handleChange("name")}
+          onChange={this.handleChange('name')}
           margin="normal"
           variant="outlined"
         />
@@ -83,17 +110,13 @@ class Signup extends Component {
           margin="normal"
           variant="outlined"
         />
-
-        <Button variant="contained" color="primary" className={classes.button}>
-          Sign Up
-        </Button>
       </form>
     );
   }
 }
 
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Signup);

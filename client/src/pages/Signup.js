@@ -23,10 +23,15 @@ const styles = theme => ({
 
 class Signup extends Component {
   state = {
+<<<<<<< Updated upstream
     name: 'Cat in the Hat',
     age: '',
     multiline: 'Controlled',
     currency: 'EUR',
+=======
+    name: "Jane Smith",
+    multiline: "Controlled"
+>>>>>>> Stashed changes
   };
 
   handleChange = name => event => {

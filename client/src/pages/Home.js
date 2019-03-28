@@ -32,7 +32,14 @@ class Home extends Component {
             organic you probably haven't heard of them shaman keffiyeh. Microdosing taxidermy
             taiyaki, plaid pitchfork seitan distillery sartorial polaroid meh retro flexitarian.
           </Typography>
+<<<<<<< Updated upstream
           <Button>Sign Up</Button>
+=======
+
+          <Button variant="contained" color="primary" href="/signup" className={this.button}>
+            Sign Up
+          </Button>
+>>>>>>> Stashed changes
         </Paper>
       </div>
     );

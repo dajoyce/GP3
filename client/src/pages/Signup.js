@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
   container: {
@@ -22,7 +23,7 @@ const styles = theme => ({
 
 class Signup extends Component {
   state = {
-    name: "Cat in the Hat",
+    name: "Jane Smith",
     email: "",
     password: ""
   };
@@ -69,6 +70,15 @@ class Signup extends Component {
           margin="normal"
           variant="outlined"
         />
+
+        <Button
+          variant="contained"
+          color="primary"
+          href="/signup"
+          className={this.props.classes.button}
+        >
+          Sign Up
+        </Button>
       </form>
     );
   }

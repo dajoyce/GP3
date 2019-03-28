@@ -10,6 +10,29 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
+  },
+
+  container: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit
+  },
+  dense: {
+    marginTop: 16
+  },
+  menu: {
+    width: 200
+  },
+
+  button: {
+    margin: theme.spacing.unit
+  },
+
+  input: {
+    display: "none"
   }
 });
 
@@ -32,14 +55,11 @@ class Home extends Component {
             organic you probably haven't heard of them shaman keffiyeh. Microdosing taxidermy
             taiyaki, plaid pitchfork seitan distillery sartorial polaroid meh retro flexitarian.
           </Typography>
-<<<<<<< Updated upstream
           <Button>Sign Up</Button>
-=======
 
-          <Button variant="contained" color="primary" href="/signup" className={this.button}>
-            Sign Up
+          <Button variant="contained" color="primary" className={classes.button}>
+            Submit
           </Button>
->>>>>>> Stashed changes
         </Paper>
       </div>
     );

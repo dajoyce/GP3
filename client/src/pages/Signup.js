@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
@@ -24,9 +21,7 @@ const styles = theme => ({
 });
 
 
-export default class Signup extends Component {
-  render() {
-class OutlinedTextFields extends React.Component {
+class Signup extends Component {
   state = {
     name: 'Cat in the Hat',
     age: '',
@@ -42,6 +37,7 @@ class OutlinedTextFields extends React.Component {
 
   render() {
     const { classes } = this.props;
+    console.log(this);
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -75,14 +71,14 @@ class OutlinedTextFields extends React.Component {
           margin="normal"
           variant="outlined"
         />
-        
+
       </form>
     );
   }
 }
 
-OutlinedTextFields.propTypes = {
+Signup.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-  
-export default withStyles(styles)(OutlinedTextFields);
+
+export default withStyles(styles)(Signup);

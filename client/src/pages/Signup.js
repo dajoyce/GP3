@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-<<<<<<< Updated upstream
-=======
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -48,15 +46,8 @@ class Signup extends Component {
       [name]: event.target.value
     });
   };
->>>>>>> Stashed changes
 
-export default class Signup extends Component {
   render() {
-<<<<<<< Updated upstream
-    return <div>Signup</div>;
-  }
-}
-=======
     const { classes } = this.props;
     console.log(this);
 
@@ -106,4 +97,3 @@ Signup.propTypes = {
 };
 
 export default withStyles(styles)(Signup);
->>>>>>> Stashed changes

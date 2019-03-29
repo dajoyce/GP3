@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import auth from "./firebase/firebase";
-import "./App.css";
 import Navbar from "./components/Navbar";
-import Header from "./components/Header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./components/Login";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
+import MapPage from './pages/MapPage';
 import { isNullOrUndefined } from "util";
 
 class App extends Component {
@@ -40,6 +39,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/signup" component={Signup} />
+            <Route exact path="/map" component={MapPage} />
           </Switch>
         </div>
       </Router>

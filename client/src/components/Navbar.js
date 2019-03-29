@@ -9,6 +9,11 @@ import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 // import Avatar from "@material-ui/core/Avatar";
+const style = {
+  appbarStyle: {
+    background: "#6c763e"
+  }
+};
 
 const styles = theme => ({
   root: {
@@ -110,7 +115,7 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="fixed" className={classes.appBar}>
+        <AppBar position="fixed" className={classes.appBar} style={style.appbarStyle}>
           <Toolbar>
             {/* <Avatar alt="Ivy Logo" src="#" className={classes.bigAvatar}>
               <AccountCircle />

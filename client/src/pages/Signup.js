@@ -7,7 +7,8 @@ import Button from "@material-ui/core/Button";
 const styles = theme => ({
   container: {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    marginTop: "5%"
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -71,12 +72,7 @@ class Signup extends Component {
           variant="outlined"
         />
 
-        <Button
-          variant="contained"
-          color="primary"
-          href="/signup"
-          className={this.props.classes.button}
-        >
+        <Button variant="contained" color="primary" href="/signup" className={this.props.classes.button}>
           Sign Up
         </Button>
       </form>

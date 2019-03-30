@@ -119,5 +119,5 @@ export class IvyMap extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDUYM0pSulwL2VmCigpdn5Ji0EVyE4lh6U"//process.env.REACT_APP_GOOGLE_MAPS_KEY
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY
 })(IvyMap); 

@@ -8,9 +8,9 @@ class Login extends React.Component {
     errors: null
   };
 
-  handleChange = e => {
-    const name = e.target.name;
-    const value = e.target.value;
+  handleChange = i => {
+    const name = i.target.name;
+    const value = i.target.value;
     this.setState({ [name]: value });
   };
 

@@ -42,7 +42,7 @@ class Home extends Component {
       <div>
         <Paper className={this.props.root} elevation={1}>
           <Typography variant="h3" gutterBottom>
-            Welcome to Ivy
+            Welcome to ivy
           </Typography>
           <Typography variant="subtitle1" gutterBottom>
             Selvage activated charcoal food truck marfa, hella man braid chicharrones. Meh neutra humblebrag, normcore

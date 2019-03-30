@@ -128,7 +128,7 @@ class PrimarySearchAppBar extends React.Component {
               <AccountCircle />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Ivy
+              ivy
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>

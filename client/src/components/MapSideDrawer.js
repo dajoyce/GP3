@@ -8,7 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TripNotes from './MapDrawerTabs/TripNotes';
 
-const drawerWidth = 480;
+const drawerWidth = 320;
 
 const styles = theme => ({
     root: {

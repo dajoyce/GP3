@@ -6,7 +6,7 @@ export default class MapPage extends Component {
     render() {
         return (
             <div>
-                <SideBar />
+                {/* <SideBar /> */}
                 <IvyMap currentPoint={{ lat: 35.7806, lng: -78.6369 }} />
             </div>
         )

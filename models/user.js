@@ -7,14 +7,6 @@ const userSchema = new Schema({
   uid: { type: String, required: true },
   email: { type: String, required: true }
 });
-
-// const tripSchema = new Schema({
-//   trip: { type: Array, required: false }
-// });
-
 const User = mongoose.model("User", userSchema);
 
-// const Trip = mongoose.model("Trip", tripSchema);
-
 module.exports = User;
-// module.exports = Trip;

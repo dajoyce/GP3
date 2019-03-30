@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react';
 import axios from 'axios';
 import { TransitionGroup } from 'react-transition-group';
 import { node } from 'prop-types';
@@ -28,6 +28,7 @@ export class IvyMap extends Component {
     }
 
     this.places = new this.props.google.maps.places.PlacesService();
+    this.bounds = new this.props.google.maps.LatLngBounds();
   }
 
   componentDidMount = () => {
@@ -42,21 +43,27 @@ export class IvyMap extends Component {
         lng: this.state.trip.nodes[this.state.trip.nodes.length - 1].lng
       }
     }).then((response) => {
+      this.bounds = new this.props.google.maps.LatLngBounds();
+      response.data.forEach(point => {
+        this.bounds.extend({ lat: point.latitude, lng: point.longitude })
+      });
       this.setState({ points: response.data })
     })
   }
 
-  createMarker = (node) => {
+  //   onMouseover = {(event) => this.handleMarkerHover(node, event)}
+  // onMouseout = {() => {
+  //   console.log("OUT");
+  //   this.setState({ showInfoWindow: false })
+  // }}
+
+  createMarker = (node, ind) => {
     return (<Marker
       title={node.city}
-      key={node.name}
+      key={ind}
       name={node.name}
       position={{ lat: node.latitude, lng: node.longitude }}
-      onMouseover={(event) => this.handleMarkerHover(node, event)}
-      onMouseout={() => {
-        console.log("OUT");
-        this.setState({ showInfoWindow: false })
-      }}
+      onClick={() => this.handleMarkerCick(node)}
     />);
   }
 
@@ -67,50 +74,58 @@ export class IvyMap extends Component {
   handleMarkerCick = (node) => {
     var trip = this.state.trip;
 
-    trip.nodes.append({ place: node.city, lat: node.latitude, lng: node.longitude })
+    console.log(trip);
+
+    trip.nodes.push({ place: node.city, lat: node.latitude, lng: node.longitude })
 
     this.setState({ trip: trip });
 
-
+    this.getNewNodes();
   }
 
   render() {
     // console.log(this.state);
-    //console.log(process.env);
-    var bounds = new this.props.google.maps.LatLngBounds();
-    this.state.points.forEach(point => {
-      bounds.extend({ lat: point.latitude, lng: point.longitude })
-    });
+    //console.log(process.env);\
 
     return (
       <Map
         google={this.props.google}
-        initialCenter={this.state.currentPoint}
-        bounds={bounds}>
+        bounds={this.bounds}>
 
 
-        {this.state.trip.nodes.map(node => {
+        {this.state.trip.nodes.map((node, ind) => {
           return (<Marker
             title={"Current Node"}
             name={"Current Location"}
-            key={{ lat: node.lat, lng: node.lng }}
+            key={ind}
+            icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 5 }}
             position={{ lat: node.lat, lng: node.lng }}
           />);
         })}
 
 
 
-        {this.state.points.map(node => {
-          return this.createMarker(node);
+        {this.state.points.map((node, ind) => {
+          return this.createMarker(node, ind);
         })}
 
+        <Polyline
+          path={this.state.trip.nodes.map(node => {
+            return { lat: node.lat, lng: node.lng };
+          })}
+          strokeColor="#0000FF"
+          strokeOpacity={0.8}
+          strokeWeight={2} />
 
-        <InfoWindow
+
+
+
+        {/* <InfoWindow
           position={this.state.windowPosition}
           visible={this.state.showInfoWindow}>
           Here is {this.state.currentNode.city}
 
-        </InfoWindow>
+        </InfoWindow> */}
 
 
       </Map>

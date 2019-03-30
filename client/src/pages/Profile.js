@@ -6,7 +6,14 @@ import Grid from "@material-ui/core/Grid";
 
 const style = {
   userProfile: {
-    background: "red"
+    // background: "#6c763e"
+  }
+};
+
+const tripStyle = {
+  trip: {
+    background: "#6c763e",
+    marginBottom: "5%"
   }
 };
 
@@ -32,7 +39,18 @@ function Profile(props) {
           <Paper className={classes.paper}>Profile Pic and Name</Paper>
         </Grid>
         <Grid item xs={6}>
-          <Paper className={classes.paper}>Trips</Paper>
+          <Paper className={classes.paper} style={tripStyle.trip}>
+            <div>Trip Name</div>
+            <Grid>Insert Pic from Search Page</Grid>
+          </Paper>
+          <Paper className={classes.paper} style={tripStyle.trip}>
+            <div>Trip Name</div>
+            <Grid>Insert Pic from Search Page</Grid>
+          </Paper>
+          <Paper className={classes.paper} style={tripStyle.trip}>
+            <div>Trip Name</div>
+            <Grid>Insert Pic from Search Page</Grid>
+          </Paper>
         </Grid>
       </Grid>
     </div>

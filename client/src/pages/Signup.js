@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import auth from "../firebase/firebase";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import API from "../utils/API";
 
 const styles = theme => ({
   container: {
@@ -24,20 +26,44 @@ const styles = theme => ({
 
 class Signup extends Component {
   state = {
-    name: "Jane Smith",
+    name: "",
     email: "",
-    password: ""
+    password: "",
+    errors: null
   };
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value
-    });
+  handleChange = i => {
+    const name = i.target.name;
+    const value = i.target.value;
+    this.setState({ [name]: value });
+  };
+
+  createAccount = e => {
+    e.preventDefault();
+
+    auth
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(res => {
+        API.createUser({
+          username: this.state.name,
+          email: this.state.email,
+          uid: res.user.uid
+        }).then(serverResponse => {
+          console.log(serverResponse);
+        });
+        this.setState({
+          errors: null
+        });
+      })
+      .catch(error => {
+        this.setState({
+          errors: error.message
+        });
+      });
   };
 
   render() {
     const { classes } = this.props;
-    console.log(this);
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -46,7 +72,8 @@ class Signup extends Component {
           label="Name"
           className={classes.textField}
           value={this.state.name}
-          onChange={this.handleChange("name")}
+          onChange={this.handleChange}
+          name="name"
           margin="normal"
           variant="outlined"
         />
@@ -55,6 +82,8 @@ class Signup extends Component {
           id="outlined-email-input"
           label="Email"
           className={classes.textField}
+          value={this.state.email}
+          onChange={this.handleChange}
           type="email"
           name="email"
           autoComplete="email"
@@ -66,15 +95,26 @@ class Signup extends Component {
           id="outlined-password-input"
           label="Password"
           className={classes.textField}
+          value={this.state.password}
+          onChange={this.handleChange}
+          name="password"
           type="password"
           autoComplete="current-password"
           margin="normal"
           variant="outlined"
         />
 
-        <Button variant="contained" color="primary" href="/signup" className={this.props.classes.button}>
+        <Button
+          onClick={this.createAccount}
+          variant="contained"
+          color="primary"
+          href="/signup"
+          className={this.props.classes.button}
+        >
           Sign Up
         </Button>
+
+        {this.state.errors && <p>{this.state.errors}</p>}
       </form>
     );
   }

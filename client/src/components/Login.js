@@ -18,6 +18,7 @@ class Login extends React.Component {
     auth
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
+        console.log(res);
         this.setState({
           errors: null
         });

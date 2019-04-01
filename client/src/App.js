@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import Login from "./components/Login";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
-import MapPage from './pages/MapPage';
+import MapPage from "./pages/MapPage";
 import { isNullOrUndefined } from "util";
 
 class App extends Component {
@@ -23,7 +23,7 @@ class App extends Component {
       if (firebaseUser) {
         console.log(firebaseUser);
       } else {
-        console.log("Login Did Not Compute");
+        console.log("Logged out");
       }
     });
   }

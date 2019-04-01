@@ -8,6 +8,11 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import { withRouter } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import Login from "../components/Login";
+
 // import Avatar from "@material-ui/core/Avatar";
 const style = {
   appbarStyle: {
@@ -79,6 +84,71 @@ class PrimarySearchAppBar extends React.Component {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+    console.log(this.props.location);
+
+    const navbarContent = () => {
+      const path = this.props.location.pathname;
+      // debugger;
+      if (path === "/") {
+        return (
+          <>
+            <TextField
+              id="outlined-email-input"
+              label="Email"
+              className={classes.textField}
+              type="email"
+              name="email"
+              autoComplete="email"
+              margin="normal"
+              variant="outlined"
+            />
+
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              className={classes.textField}
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              variant="outlined"
+            />
+            <Button
+              onClick={this.Login}
+              variant="contained"
+              color="primary"
+              href="/map"
+              className={this.props.classes.button}
+            >
+              Log In
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              href="/signup"
+              className={this.props.classes.button}
+            >
+              Sign Up
+            </Button>
+          </>
+        );
+      } else if (path === "/map" || path === "/profile") {
+        return (
+          <>
+            <IconButton
+              aria-owns={isMenuOpen ? "material-appbar" : undefined}
+              aria-haspopup="true"
+              onClick={this.handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </>
+        );
+      } else if (path === "/signup") {
+        return <></>;
+      }
+    };
+
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -128,19 +198,10 @@ class PrimarySearchAppBar extends React.Component {
               <AccountCircle />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              Ivy
+              ivy
             </Typography>
             <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <IconButton
-                aria-owns={isMenuOpen ? "material-appbar" : undefined}
-                aria-haspopup="true"
-                onClick={this.handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
+            <div className={classes.sectionDesktop}>{navbarContent()}</div>
           </Toolbar>
         </AppBar>
         {renderMenu}
@@ -154,4 +215,4 @@ PrimarySearchAppBar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(PrimarySearchAppBar);
+export default withStyles(styles)(withRouter(PrimarySearchAppBar));

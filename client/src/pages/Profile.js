@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import API from "../utils/API"
+import API from "../utils/API";
 import { Typography } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import PlaceTile from "../components/PlaceTile";
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter, Link } from "react-router-dom";
 
 const style = {
   userProfile: {
@@ -31,19 +31,19 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: "center",
     color: theme.palette.text.secondary,
-    background: "#eeeeee",
+    background: "#eeeeee"
   }
 });
 
 class Profile extends Component {
   state = {
     trips: []
-  }
+  };
 
   componentDidMount() {
     API.getTrips(this.props.user).then(res => {
-      this.setState({ trips: res.data })
-    })
+      this.setState({ trips: res.data });
+    });
   }
 
   render() {
@@ -51,22 +51,40 @@ class Profile extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={24} className={classes.userProfile} style={style.userProfile}>
-          <Grid container direction="column" alignItems="center" item xs={12} sm={3}>
+        <Grid
+          container
+          spacing={24}
+          className={classes.userProfile}
+          style={style.userProfile}
+        >
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            item
+            xs={12}
+            sm={3}
+          >
             <Grid item>
               <AccountCircle />
             </Grid>
             <Grid item>
-              <Typography variant="h6">
-                {this.props.user.email}
-              </Typography>
+              <Typography variant="h6">{this.props.user.email}</Typography>
             </Grid>
           </Grid>
-          <Grid item container alignItems="center" direction="row" xs={12} sm={9} spacing={16}>
+          <Grid
+            item
+            container
+            alignItems="center"
+            direction="row"
+            xs={12}
+            sm={9}
+            spacing={16}
+          >
             {this.state.trips.map((trip, index) => {
               return (
                 <Grid item xs={12} key={index}>
-                  <Paper className={classes.paper} >
+                  <Paper className={classes.paper}>
                     <Grid container spacing={16}>
                       <Grid item xs={12}>
                         <Link to={"/map?id=" + trip._id}>
@@ -76,23 +94,27 @@ class Profile extends Component {
 
                       <Grid item container justify="center" spacing={16}>
                         {trip.nodes.map((place, index) => {
-                          return (<Grid item xs={3} key={index}>
-                            < PlaceTile title={place.place} lat={place.lat} lng={place.lng} />
-                          </Grid>
-                          )
+                          return (
+                            <Grid item xs={3} key={index}>
+                              <PlaceTile
+                                title={place.place}
+                                lat={place.lat}
+                                lng={place.lng}
+                              />
+                            </Grid>
+                          );
                         })}
                       </Grid>
                     </Grid>
-
                   </Paper>
                 </Grid>
               );
             })}
           </Grid>
         </Grid>
-      </div >
-    )
-  };
+      </div>
+    );
+  }
 }
 
 Profile.propTypes = {

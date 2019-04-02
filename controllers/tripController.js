@@ -1,8 +1,16 @@
 const db = require("../models");
 
 module.exports = {
-  findTripsFromUser: function (ownerId, cb) {
-    db.Trip.find({ owner: ownerId }).then(cb);
+  findTripsFromUser: function (uid, cb) {
+    db.User.findOne({ uid: uid }).then(user => {
+      db.Trip.find({ owner: user._id }).then(cb);
+    })
+  },
+
+  findTrip: function (id, cb) {
+    db.Trip.findById(id, (err, res) => {
+      cb(res);
+    });
   },
 
   saveTrip: function (trip, cb) {

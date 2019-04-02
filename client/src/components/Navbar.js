@@ -11,14 +11,18 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import { withRouter, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import auth from '../firebase/firebase'
-import API from '../utils/API';
+import auth from "../firebase/firebase";
+import API from "../utils/API";
 
 // import Avatar from "@material-ui/core/Avatar";
 const style = {
   appbarStyle: {
     background: "#6c763e",
     position: "unset"
+  },
+  buttonStyle: {
+    background: "#ffffff",
+    color: "#6c763e"
   }
 };
 
@@ -46,7 +50,7 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
-  },
+  }
 });
 
 class PrimarySearchAppBar extends React.Component {
@@ -76,36 +80,33 @@ class PrimarySearchAppBar extends React.Component {
 
   logout = () => {
     auth.signOut().then(res => {
-      this.props.history.push('/');
-    })
-  }
+      this.props.history.push("/");
+    });
+  };
 
   login = () => {
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
-        API.getUser(res.user.uid).then((user) => {
+        API.getUser(res.user.uid).then(user => {
           if (user.data === null) {
-            API.createUser(
-              {
-                name: 'ERROR',
-                email: res.user.email,
-                uid: res.user.uid
-              }
-            )
+            API.createUser({
+              name: "ERROR",
+              email: res.user.email,
+              uid: res.user.uid
+            });
           }
-        })
-        this.props.history.push('/map')
-
+        });
+        this.props.history.push("/map");
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
-  }
+  };
 
   handleChange = name => event => {
     this.setState({
-      [name]: event.target.value,
+      [name]: event.target.value
     });
   };
 
@@ -122,7 +123,6 @@ class PrimarySearchAppBar extends React.Component {
         if (path === "/signup") {
           return <></>;
         } else {
-
           return (
             <>
               <TextField
@@ -134,7 +134,7 @@ class PrimarySearchAppBar extends React.Component {
                 autoComplete="email"
                 margin="normal"
                 variant="outlined"
-                onChange={this.handleChange('email')}
+                onChange={this.handleChange("email")}
               />
 
               <TextField
@@ -145,24 +145,28 @@ class PrimarySearchAppBar extends React.Component {
                 autoComplete="current-password"
                 margin="normal"
                 variant="outlined"
-                onChange={this.handleChange('password')}
+                onChange={this.handleChange("password")}
               />
               <Button
+                className={classes.button}
+                style={style.buttonStyle}
                 onClick={this.login}
                 variant="contained"
                 color="primary"
                 className={this.props.classes.button}
               >
                 Log In
-            </Button>
+              </Button>
               <Button
+                className={classes.button}
+                style={style.buttonStyle}
                 variant="contained"
                 color="primary"
                 href="/signup"
                 className={this.props.classes.button}
               >
                 Sign Up
-            </Button>
+              </Button>
             </>
           );
         }
@@ -190,16 +194,22 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem href="/profile" onClick={() => {
-          this.handleMenuClose();
-          this.props.history.push('/profile')
-        }}>
+        <MenuItem
+          href="/profile"
+          onClick={() => {
+            this.handleMenuClose();
+            this.props.history.push("/profile");
+          }}
+        >
           Profile
         </MenuItem>
-        <MenuItem href="/map" onClick={() => {
-          this.handleMenuClose();
-          this.props.history.push('/map')
-        }}>
+        <MenuItem
+          href="/map"
+          onClick={() => {
+            this.handleMenuClose();
+            this.props.history.push("/map");
+          }}
+        >
           Map
         </MenuItem>
         <MenuItem href="/" onClick={this.logout}>
@@ -229,9 +239,7 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar style={{ display: "block" }} className={classes.appBar} style={style.appbarStyle}>
           <Toolbar>
-            <IconButton
-              color="inherit"
-            >
+            <IconButton color="inherit">
               <img src="/images/appbarbranding.jpg" height={40} />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>

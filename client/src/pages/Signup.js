@@ -49,6 +49,7 @@ class Signup extends Component {
           email: this.state.email,
           uid: res.user.uid
         }).then(serverResponse => {
+          this.props.history.push("/profile");
           console.log(serverResponse);
         });
         this.setState({

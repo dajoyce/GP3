@@ -14,22 +14,6 @@ class Login extends React.Component {
     this.setState({ [name]: value });
   };
 
-  createAccount = () => {
-    auth
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(res => {
-        console.log(res);
-        this.setState({
-          errors: null
-        });
-      })
-      .catch(error => {
-        this.setState({
-          errors: error.message
-        });
-      });
-  };
-
   signIn = () => {
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -62,7 +46,7 @@ class Login extends React.Component {
           onChange={this.handleChange}
         />
 
-        <button onClick={this.createAccount}>Create Account</button>
+        {/* <button onClick={this.createAccount}>Create Account</button> */}
         <button onClick={this.signIn}>Sign In</button>
         <button onClick={this.signOut}>Sign Out</button>
         {this.state.errors && <p>{this.state.errors}</p>}

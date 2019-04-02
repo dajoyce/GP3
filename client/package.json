@@ -11,6 +11,7 @@
     "google-maps-react": "^2.0.2",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
+    "react-google-autocomplete": "^1.0.18",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-swipeable-views": "^0.13.1"

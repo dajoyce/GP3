@@ -8,6 +8,7 @@ const tripScema = new Schema({
     lng: Number
   }],
   name: String,
+  notes: String,
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"

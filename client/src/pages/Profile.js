@@ -30,7 +30,8 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
     textAlign: "center",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    background: "#eeeeee",
   }
 });
 
@@ -51,34 +52,40 @@ class Profile extends Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={24} className={classes.userProfile} style={style.userProfile}>
-          <Grid container justify="center" item xs={12} sm={3}>
-            <Grid item xs={12}>
+          <Grid container direction="column" alignItems="center" item xs={12} sm={3}>
+            <Grid item>
               <AccountCircle />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
               <Typography variant="h6">
                 {this.props.user.email}
               </Typography>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid item container alignItems="center" direction="row" xs={12} sm={9} spacing={16}>
             {this.state.trips.map((trip, index) => {
               return (
-                <Paper className={classes.paper} key={index}>
-                  <Link to={"/map?id=" + trip._id}>
-                    <Typography variant="h6">{trip.name}</Typography>
-                  </Link>
-
-                  <Grid container justify="center" spacing={24}>
-                    {trip.nodes.map((place, index) => {
-                      return (<Grid item xs={3} key={index}>
-                        < PlaceTile title={place.place} lat={place.lat} lng={place.lng} />
+                <Grid item xs={12} key={index}>
+                  <Paper className={classes.paper} >
+                    <Grid container spacing={16}>
+                      <Grid item xs={12}>
+                        <Link to={"/map?id=" + trip._id}>
+                          <Typography variant="h5">{trip.name}</Typography>
+                        </Link>
                       </Grid>
-                      )
-                    })}
-                  </Grid>
 
-                </Paper>
+                      <Grid item container justify="center" spacing={16}>
+                        {trip.nodes.map((place, index) => {
+                          return (<Grid item xs={3} key={index}>
+                            < PlaceTile title={place.place} lat={place.lat} lng={place.lng} />
+                          </Grid>
+                          )
+                        })}
+                      </Grid>
+                    </Grid>
+
+                  </Paper>
+                </Grid>
               );
             })}
           </Grid>

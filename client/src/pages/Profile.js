@@ -5,6 +5,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import API from "../utils/API"
 import { Typography } from "@material-ui/core";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import PlaceTile from "../components/PlaceTile";
 
 const style = {
   userProfile: {
@@ -48,20 +50,36 @@ class Profile extends Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={24} className={classes.userProfile} style={style.userProfile}>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>Profile Pic and Name</Paper>
+          <Grid container justify="center" item xs={12} sm={3}>
+            <Grid item xs={12}>
+              <AccountCircle />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6">
+                {this.props.user.email}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            {this.state.trips.map(trip => {
+          <Grid item xs={12} sm={9}>
+            {this.state.trips.map((trip, index) => {
               return (
-                <Paper className={classes.paper}>
+                <Paper className={classes.paper} key={index}>
                   <Typography variant="h6">{trip.name}</Typography>
+                  <Grid container justify="center" spacing={24}>
+                    {trip.nodes.map((place, index) => {
+                      return (<Grid item xs={3} key={index}>
+                        < PlaceTile title={place.place} lat={place.lat} lng={place.lng} />
+                      </Grid>
+                      )
+                    })}
+                  </Grid>
+
                 </Paper>
               );
             })}
           </Grid>
         </Grid>
-      </div>
+      </div >
     )
   };
 }

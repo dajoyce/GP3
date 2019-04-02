@@ -14,6 +14,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    document.body.style.margin = 0;
     auth.onAuthStateChanged(firebaseUser => {
       this.setState({
         user: firebaseUser
@@ -41,7 +42,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Navbar />
+          <Navbar user={this.state.user} />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/signup" component={Signup} />

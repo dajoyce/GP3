@@ -12,11 +12,13 @@ import { withRouter, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import auth from '../firebase/firebase'
+import API from '../utils/API';
 
 // import Avatar from "@material-ui/core/Avatar";
 const style = {
   appbarStyle: {
-    background: "#6c763e"
+    background: "#6c763e",
+    position: "unset"
   }
 };
 
@@ -45,14 +47,6 @@ const styles = theme => ({
       display: "none"
     }
   },
-  appBar: {
-    zIndex: 2000
-  }
-  // bigAvatar: {
-  //   margin: 10,
-  //   width: 60,
-  //   height: 60
-  // }
 });
 
 class PrimarySearchAppBar extends React.Component {
@@ -82,17 +76,25 @@ class PrimarySearchAppBar extends React.Component {
 
   logout = () => {
     auth.signOut().then(res => {
-      console.log(res);
-      this.props.history.push('/')
+      this.props.history.push('/');
     })
   }
 
   login = () => {
-    console.log(this.state);
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
-        console.log(res);
+        API.getUser(res.user.uid).then((user) => {
+          if (user.data === null) {
+            API.createUser(
+              {
+                name: 'ERROR',
+                email: res.user.email,
+                uid: res.user.uid
+              }
+            )
+          }
+        })
         this.props.history.push('/map')
 
       })
@@ -113,55 +115,58 @@ class PrimarySearchAppBar extends React.Component {
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    console.log(this.props.location);
-
     const navbarContent = () => {
       const path = this.props.location.pathname;
-      // debugger;
-      if (path === "/") {
-        return (
-          <>
-            <TextField
-              id="outlined-email-input"
-              label="Email"
-              className={classes.textField}
-              type="email"
-              name="email"
-              autoComplete="email"
-              margin="normal"
-              variant="outlined"
-              onChange={this.handleChange('email')}
-            />
 
-            <TextField
-              id="outlined-password-input"
-              label="Password"
-              className={classes.textField}
-              type="password"
-              autoComplete="current-password"
-              margin="normal"
-              variant="outlined"
-              onChange={this.handleChange('password')}
-            />
-            <Button
-              onClick={this.login}
-              variant="contained"
-              color="primary"
-              className={this.props.classes.button}
-            >
-              Log In
+      if (!this.props.user) {
+        if (path === "/signup") {
+          return <></>;
+        } else {
+
+          return (
+            <>
+              <TextField
+                id="outlined-email-input"
+                label="Email"
+                className={classes.textField}
+                type="email"
+                name="email"
+                autoComplete="email"
+                margin="normal"
+                variant="outlined"
+                onChange={this.handleChange('email')}
+              />
+
+              <TextField
+                id="outlined-password-input"
+                label="Password"
+                className={classes.textField}
+                type="password"
+                autoComplete="current-password"
+                margin="normal"
+                variant="outlined"
+                onChange={this.handleChange('password')}
+              />
+              <Button
+                onClick={this.login}
+                variant="contained"
+                color="primary"
+                className={this.props.classes.button}
+              >
+                Log In
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              href="/signup"
-              className={this.props.classes.button}
-            >
-              Sign Up
+              <Button
+                variant="contained"
+                color="primary"
+                href="/signup"
+                className={this.props.classes.button}
+              >
+                Sign Up
             </Button>
-          </>
-        );
-      } else if (path === "/map" || path === "/profile") {
+            </>
+          );
+        }
+      } else {
         return (
           <>
             <IconButton
@@ -174,8 +179,6 @@ class PrimarySearchAppBar extends React.Component {
             </IconButton>
           </>
         );
-      } else if (path === "/signup") {
-        return <></>;
       }
     };
 
@@ -187,8 +190,17 @@ class PrimarySearchAppBar extends React.Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}
       >
-        <MenuItem href="/profile" onClick={this.handleMenuClose}>
+        <MenuItem href="/profile" onClick={() => {
+          this.handleMenuClose();
+          this.props.history.push('/profile')
+        }}>
           Profile
+        </MenuItem>
+        <MenuItem href="/map" onClick={() => {
+          this.handleMenuClose();
+          this.props.history.push('/map')
+        }}>
+          Map
         </MenuItem>
         <MenuItem href="/" onClick={this.logout}>
           Logout
@@ -215,27 +227,22 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="fixed" className={classes.appBar} style={style.appbarStyle}>
+        <AppBar style={{ display: "block" }} className={classes.appBar} style={style.appbarStyle}>
           <Toolbar>
-            {/* <Avatar alt="Ivy Logo" src="#" className={classes.bigAvatar}>
-              <AccountCircle />
-            </Avatar> */}
             <IconButton
-              // aria-owns={isMenuOpen ? "material-appbar" : undefined}
-              // aria-haspopup="true"
               color="inherit"
             >
-              <AccountCircle />
+              <img src="/images/appbarbranding.jpg" height={40} />
             </IconButton>
             <Typography className={classes.title} variant="h6" color="inherit" noWrap>
               ivy
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>{navbarContent()}</div>
+            {renderMenu}
+            {renderMobileMenu}
           </Toolbar>
         </AppBar>
-        {renderMenu}
-        {renderMobileMenu}
       </div>
     );
   }

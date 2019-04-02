@@ -22,6 +22,7 @@ export class IvyMap extends Component {
       windowPosition: { lng: 0, lat: 0 },
       currentNode: {},
       trip: {
+        name: "trip",
         owner: null,
         nodes: [
         ]
@@ -43,7 +44,7 @@ export class IvyMap extends Component {
   }
 
   getNewNodes = (trip = this.state.trip) => {
-    console.log(trip.nodes[trip.nodes.length - 1]);
+    console.log(trip);
     axios.get(`/api/places/findnodes`, {
       params: {
         lat: trip.nodes[trip.nodes.length - 1].lat,
@@ -51,6 +52,7 @@ export class IvyMap extends Component {
       }
     }).then((response) => {
       this.bounds = new this.props.google.maps.LatLngBounds();
+      console.log(response);
       response.data.forEach(point => {
         this.bounds.extend({ lat: point.latitude, lng: point.longitude })
       });
@@ -84,13 +86,22 @@ export class IvyMap extends Component {
     // console.log(trip);
 
     trip.nodes.push({ place: node.city, lat: node.latitude, lng: node.longitude });
+    console.log(trip)
 
-    this.getNewNodes(trip);
+    axios.put('/api/places/savetrip', trip).then(res => {
+      console.log(res);
+      this.getNewNodes(res.data);
+    })
   }
 
   render() {
     // console.log(this.state);
-    //console.log(process.env);\
+    //console.log(process.env);
+
+    this.style = {
+      height: "100%",
+      width: window.innerWidth
+    }
 
     return (
 
@@ -123,7 +134,8 @@ export class IvyMap extends Component {
         </Dialog>
         <Map
           google={this.props.google}
-          bounds={this.bounds}>
+          bounds={this.bounds}
+          style={this.style}>
 
           {this.state.trip.nodes.map((node, ind) => {
             return (<Marker

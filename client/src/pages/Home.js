@@ -19,24 +19,34 @@ const styles = theme => ({
 
 class Home extends Component {
   render() {
-    console.log(this.props)
+    console.log(this.props);
     return (
       <Grid className={this.props.classes.root} container justify="center">
         <Grid item xs={12} sm={6}>
           <Paper className={this.props.classes.paper} elevation={1}>
             <Grid container justify="center">
               <Grid item xs={12} sm={6}>
-                <img src="/images/ivy-brading-large.jpg" width={"100%"}></img>
+                <img src="/images/ivy-brading-large.jpg" width={"100%"} />
               </Grid>
               <Typography variant="subtitle1" gutterBottom>
-                Selvage activated charcoal food truck marfa, hella man braid chicharrones. Meh neutra humblebrag, normcore
-                four dollar toast lumbersexual pickled banh mi paleo pinterest hexagon selvage biodiesel. Affogato glossier
-                before they sold out, hot chicken post-ironic try-hard cornhole irony cliche venmo flexitarian mixtape
-                letterpress humblebrag. Microdosing live-edge lyft tbh celiac iceland unicorn shoreditch chia skateboard
-                succulents marfa copper mug slow-carb. Plaid 8-bit pabst pop-up kitsch poke direct trade brooklyn. Art party
-                coloring book disrupt portland stumptown fam freegan, organic you probably haven't heard of them shaman
-                keffiyeh. Microdosing taxidermy taiyaki, plaid pitchfork seitan distillery sartorial polaroid meh retro
-                flexitarian.
+                we believe that a trip should be more than just a destination.
+                <br />
+                we believe that the idea of leaving one place simply to go enjoy
+                another is, well, boring.
+                <br />
+                we believe that a true trip shouldn't have just one destination.
+                <br />
+                we created ivy to disrupt your typical trip planning and
+                experience more when you hit the road.
+                <br />
+                ivy lets you figure out where to go with more ease and
+                spontaneity.
+                <br />
+                with ivy we make sure you find new spots and never go the same
+                way twice.
+                <br />
+                we believe in detours, not destinations. we know ivy will make
+                you a believer too.
               </Typography>
             </Grid>
           </Paper>

@@ -6,11 +6,14 @@ import { node } from 'prop-types';
 import TripNotes from './MapDrawerTabs/TripNotes';
 import { Dialog, DialogContentText, TextField, DialogContent } from '@material-ui/core';
 import Autocomplete from 'react-google-autocomplete';
+import { auth } from 'firebase';
 
 export class IvyMap extends Component {
 
   constructor(props) {
     super(props);
+
+    console.log(props);
 
     this.state = {
       zoom: props.zoom || 15,
@@ -30,6 +33,13 @@ export class IvyMap extends Component {
   }
 
   componentDidMount = () => {
+
+    axios.get("/api/user/" + this.props.user.uid).then(res => {
+      console.log(res);
+      let trip = this.state.trip;
+      trip.owner = res.data._id;
+      this.setState({ trip });
+    });
   }
 
   getNewNodes = (trip = this.state.trip) => {

@@ -7,6 +7,12 @@ module.exports = {
     })
   },
 
+  findTrip: function (id, cb) {
+    db.Trip.findById(id, (err, res) => {
+      cb(res);
+    });
+  },
+
   saveTrip: function (trip, cb) {
     if (trip._id) {
       db.Trip.update({ _id: trip._id }, trip, (err, raw) => {

@@ -12,6 +12,13 @@ export default {
   saveUser: function (userData) {
     return axios.post("/api/user", userData);
   },
+  getTrip(id) {
+    return axios.get("/api/places/findTrip", {
+      params: {
+        id: id
+      }
+    })
+  },
   getTrips(user) {
     return axios.get("/api/places/gettrips", {
       params: {

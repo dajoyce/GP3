@@ -7,6 +7,7 @@ import API from "../utils/API"
 import { Typography } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import PlaceTile from "../components/PlaceTile";
+import { withRouter, Link } from 'react-router-dom'
 
 const style = {
   userProfile: {
@@ -64,7 +65,10 @@ class Profile extends Component {
             {this.state.trips.map((trip, index) => {
               return (
                 <Paper className={classes.paper} key={index}>
-                  <Typography variant="h6">{trip.name}</Typography>
+                  <Link to={"/map?id=" + trip._id}>
+                    <Typography variant="h6">{trip.name}</Typography>
+                  </Link>
+
                   <Grid container justify="center" spacing={24}>
                     {trip.nodes.map((place, index) => {
                       return (<Grid item xs={3} key={index}>
@@ -88,4 +92,4 @@ Profile.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Profile);
+export default withRouter(withStyles(styles)(Profile));

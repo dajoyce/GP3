@@ -31,5 +31,12 @@ router.get('/gettrips', (req, res) => {
   });
 })
 
+router.get("/findtrip", (req, res) => {
+  tripDB.findTrip(req.query.id, (data) => {
+    console.log(data);
+    res.send(data);
+  });
+})
+
 
 module.exports = router;

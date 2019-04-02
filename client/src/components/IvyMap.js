@@ -21,7 +21,7 @@ export class IvyMap extends Component {
       showInfoWindow: false,
       windowPosition: { lng: 0, lat: 0 },
       currentNode: {},
-      trip: {
+      trip: props.trip || {
         name: "trip",
         owner: null,
         nodes: [
@@ -35,12 +35,16 @@ export class IvyMap extends Component {
 
   componentDidMount = () => {
 
-    axios.get("/api/user/" + this.props.user.uid).then(res => {
-      console.log(res);
-      let trip = this.state.trip;
-      trip.owner = res.data._id;
-      this.setState({ trip });
-    });
+    if (this.state.trip.owner) {
+      this.getNewNodes();
+    } else {
+      axios.get("/api/user/" + this.props.user.uid).then(res => {
+        console.log(res);
+        let trip = this.state.trip;
+        trip.owner = res.data._id;
+        this.setState({ trip });
+      });
+    }
   }
 
   getNewNodes = (trip = this.state.trip) => {

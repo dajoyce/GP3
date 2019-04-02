@@ -66,7 +66,7 @@ class Profile extends Component {
               return (
                 <Paper className={classes.paper} key={index}>
                   <Link to={"/map?id=" + trip._id}>
-                    <Typography variant="h6">{trip.name}</Typography>
+                    <Typography variant="h5">{trip.name}</Typography>
                   </Link>
 
                   <Grid container justify="center" spacing={24}>

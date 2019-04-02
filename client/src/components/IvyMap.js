@@ -34,6 +34,7 @@ export class IvyMap extends Component {
 
     this.places = new props.google.maps.places.PlacesService();
     this.bounds = new props.google.maps.LatLngBounds();
+    this.saveInterval = 0;
   }
 
   componentDidMount = () => {
@@ -95,10 +96,21 @@ export class IvyMap extends Component {
     trip.nodes.push({ place: node.city, lat: node.latitude, lng: node.longitude });
     console.log(trip)
 
-    axios.put('/api/places/savetrip', trip).then(res => {
-      console.log(res);
-      this.getNewNodes(res.data);
-    });
+    this.saveTrip(trip);
+
+    this.getNewNodes(trip);
+  }
+
+  saveTrip(trip) {
+    let interval = setTimeout(() => {
+      axios.put('/api/places/savetrip', trip).then(res => {
+        console.log(res);
+        this.setState(res.data);
+      });
+    }, 3000);
+
+    clearTimeout(this.saveInterval)
+    this.saveInterval = interval;
   }
 
   handleNotes = (event, value) => {
@@ -108,6 +120,7 @@ export class IvyMap extends Component {
     } else if (event.target.name === "notes") {
       trip.notes = event.target.value;
     }
+    this.saveTrip(trip);
     this.setState({ trip })
   }
 

@@ -5,6 +5,15 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import API from "../utils/API";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+
+const style = {
+  buttonStyle: {
+    background: "#6c763e"
+  }
+};
 
 const styles = theme => ({
   container: {
@@ -21,6 +30,18 @@ const styles = theme => ({
   },
   menu: {
     width: 200
+  },
+  root: {
+    ...theme.mixins.gutters(),
+    paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
+    flexGrow: 1,
+    marginTop: "10%"
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: "center",
+    color: theme.palette.text.secondary
   }
 });
 
@@ -67,56 +88,83 @@ class Signup extends Component {
     const { classes } = this.props;
 
     return (
-      <form className={classes.container} noValidate autoComplete="off">
-        <TextField
-          id="outlined-name"
-          label="Name"
-          className={classes.textField}
-          value={this.state.name}
-          onChange={this.handleChange}
-          name="name"
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-email-input"
-          label="Email"
-          className={classes.textField}
-          value={this.state.email}
-          onChange={this.handleChange}
-          type="email"
-          name="email"
-          autoComplete="email"
-          margin="normal"
-          variant="outlined"
-        />
-
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          className={classes.textField}
-          value={this.state.password}
-          onChange={this.handleChange}
-          name="password"
-          type="password"
-          autoComplete="current-password"
-          margin="normal"
-          variant="outlined"
-        />
-
-        <Button
-          onClick={this.createAccount}
-          variant="contained"
-          color="primary"
-          href="/signup"
-          className={this.props.classes.button}
+      <Paper className={classes.paper}>
+        <Grid
+          container
+          spacing={24}
+          className={this.props.classes.root}
+          justify="center"
+          alignItems="center"
         >
-          Sign Up
-        </Button>
+          <Grid item xs={4}>
+            <Typography variant="h6" gutterBottom>
+              Sign Up
+            </Typography>
+            <form className={classes.container} noValidate autoComplete="off">
+              <TextField
+                id="outlined-name"
+                label="Name"
+                className={classes.textField}
+                value={this.state.name}
+                onChange={this.handleChange}
+                name="name"
+                margin="normal"
+                variant="outlined"
+              />
 
-        {this.state.errors && <p>{this.state.errors}</p>}
-      </form>
+              <TextField
+                id="outlined-email-input"
+                label="Email"
+                className={classes.textField}
+                value={this.state.email}
+                onChange={this.handleChange}
+                type="email"
+                name="email"
+                autoComplete="email"
+                margin="normal"
+                variant="outlined"
+              />
+
+              <TextField
+                id="outlined-password-input"
+                label="Password"
+                className={classes.textField}
+                value={this.state.password}
+                onChange={this.handleChange}
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                margin="normal"
+                variant="outlined"
+              />
+
+              <Button
+                className={classes.button}
+                style={style.buttonStyle}
+                onClick={this.createAccount}
+                variant="contained"
+                color="primary"
+                href="/signup"
+                className={this.props.classes.button}
+              >
+                Sign Up
+              </Button>
+
+              {this.state.errors && <p>{this.state.errors}</p>}
+            </form>
+          </Grid>
+
+          <Grid item xs={4} alignItems="stretch">
+            <Typography variant="h6" gutterBottom>
+              What We Do With Your Info
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              This is a section that will say what we are using the users info for and how we use it
+              but for now it is this dummy text. Please enjoy.
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
     );
   }
 }

@@ -100,7 +100,7 @@ class Signup extends Component {
             <Typography variant="h6" gutterBottom>
               Sign Up
             </Typography>
-            <form className={classes.container} noValidate autoComplete="off">
+            <form className={classes.container} noValidate autoComplete="off" alignItems="center">
               <TextField
                 id="outlined-name"
                 label="Name"
@@ -145,6 +145,7 @@ class Signup extends Component {
                 variant="contained"
                 color="primary"
                 href="/signup"
+                fullWidth={true}
                 className={this.props.classes.button}
               >
                 Sign Up

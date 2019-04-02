@@ -8,10 +8,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Login from "../components/Login";
+import auth from '../firebase/firebase'
 
 // import Avatar from "@material-ui/core/Avatar";
 const style = {
@@ -58,7 +58,9 @@ const styles = theme => ({
 class PrimarySearchAppBar extends React.Component {
   state = {
     anchorEl: null,
-    mobileMoreAnchorEl: null
+    mobileMoreAnchorEl: null,
+    email: "",
+    password: ""
   };
 
   handleProfileMenuOpen = event => {
@@ -76,6 +78,33 @@ class PrimarySearchAppBar extends React.Component {
 
   handleMobileMenuClose = () => {
     this.setState({ mobileMoreAnchorEl: null });
+  };
+
+  logout = () => {
+    auth.signOut().then(res => {
+      console.log(res);
+      this.props.history.push('/')
+    })
+  }
+
+  login = () => {
+    console.log(this.state);
+    auth
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(res => {
+        console.log(res);
+        this.props.history.push('/map')
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
   };
 
   render() {
@@ -101,6 +130,7 @@ class PrimarySearchAppBar extends React.Component {
               autoComplete="email"
               margin="normal"
               variant="outlined"
+              onChange={this.handleChange('email')}
             />
 
             <TextField
@@ -111,12 +141,12 @@ class PrimarySearchAppBar extends React.Component {
               autoComplete="current-password"
               margin="normal"
               variant="outlined"
+              onChange={this.handleChange('password')}
             />
             <Button
-              onClick={this.Login}
+              onClick={this.login}
               variant="contained"
               color="primary"
-              href="/map"
               className={this.props.classes.button}
             >
               Log In
@@ -160,7 +190,7 @@ class PrimarySearchAppBar extends React.Component {
         <MenuItem href="/profile" onClick={this.handleMenuClose}>
           Profile
         </MenuItem>
-        <MenuItem href="/" onClick={this.handleMenuClose}>
+        <MenuItem href="/" onClick={this.logout}>
           Logout
         </MenuItem>
       </Menu>

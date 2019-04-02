@@ -45,7 +45,7 @@ class Signup extends Component {
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
         API.createUser({
-          username: this.state.name,
+          name: this.state.name,
           email: this.state.email,
           uid: res.user.uid
         }).then(serverResponse => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Wrapper } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -239,12 +239,17 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar style={{ display: "block" }} className={classes.appBar} style={style.appbarStyle}>
           <Toolbar>
-            <IconButton color="inherit">
-              <img src="/images/appbarbranding.jpg" height={40} />
-            </IconButton>
-            <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-              ivy
-            </Typography>
+            {this.props.location.pathname === "/" ? "" : [
+              <IconButton
+                color="inherit"
+              >
+                <img src="/images/appbarbranding.jpg" height={40} />
+              </IconButton>,
+              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                ivy
+              </Typography>
+            ]
+            }
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>{navbarContent()}</div>
             {renderMenu}

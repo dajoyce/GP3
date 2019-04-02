@@ -9,8 +9,6 @@ import Grid from "@material-ui/core/Grid";
 const styles = theme => ({
   root: {
     ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
   },
   paper: {
     padding: theme.spacing.unit * 2
@@ -21,13 +19,15 @@ class Home extends Component {
   render() {
     console.log(this.props)
     return (
-      <Grid className={this.props.classes.root} container justify="center">
+      <Grid className={this.props.classes.root} container justify="center" style={{ padding: 0 }} >
+        <Grid item xs={12}>
+          <div style={{ display: "flex", justifyContent: "center", backgroundColor: "#6c763e" }}>
+            <img src="/images/ivy-brading-large.jpg" height={250} />
+          </div>
+        </Grid>
         <Grid item xs={12} sm={6}>
           <Paper className={this.props.classes.paper} elevation={1}>
             <Grid container justify="center">
-              <Grid item xs={12} sm={6}>
-                <img src="/images/ivy-brading-large.jpg" width={"100%"}></img>
-              </Grid>
               <Typography variant="subtitle1" gutterBottom>
                 Selvage activated charcoal food truck marfa, hella man braid chicharrones. Meh neutra humblebrag, normcore
                 four dollar toast lumbersexual pickled banh mi paleo pinterest hexagon selvage biodiesel. Affogato glossier
@@ -41,7 +41,7 @@ class Home extends Component {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
+      </ Grid>
     );
   }
 }

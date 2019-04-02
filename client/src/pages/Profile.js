@@ -51,11 +51,11 @@ class Profile extends Component {
     return (
       <div className={classes.root}>
         <Grid container spacing={24} className={classes.userProfile} style={style.userProfile}>
-          <Grid container justify="center" item xs={12} sm={3}>
-            <Grid item xs={12}>
+          <Grid container direction="column" alignItems="center" justify="center" item xs={12} sm={3}>
+            <Grid item>
               <AccountCircle />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
               <Typography variant="h6">
                 {this.props.user.email}
               </Typography>

@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react';
 import axios from 'axios';
-import { TransitionGroup } from 'react-transition-group';
-import { node } from 'prop-types';
-import TripNotes from './MapDrawerTabs/TripNotes';
-import { Dialog, DialogContentText, TextField, DialogContent } from '@material-ui/core';
+import { Dialog, DialogContentText, DialogContent, Grid } from '@material-ui/core';
 import Autocomplete from 'react-google-autocomplete';
-import { auth } from 'firebase';
+import SideBar from '../components/SideBar';
 
 export class IvyMap extends Component {
 
@@ -21,26 +18,37 @@ export class IvyMap extends Component {
       showInfoWindow: false,
       windowPosition: { lng: 0, lat: 0 },
       currentNode: {},
-      trip: {
+      value: 0,
+      trip: props.trip || {
         name: "trip",
         owner: null,
+        notes: "",
         nodes: [
         ]
       }
     }
 
+    if (!this.state.trip.notes) {
+      this.state.trip.notes = "";
+    }
+
     this.places = new props.google.maps.places.PlacesService();
     this.bounds = new props.google.maps.LatLngBounds();
+    this.saveInterval = 0;
   }
 
   componentDidMount = () => {
 
-    axios.get("/api/user/" + this.props.user.uid).then(res => {
-      console.log(res);
-      let trip = this.state.trip;
-      trip.owner = res.data._id;
-      this.setState({ trip });
-    });
+    if (this.state.trip.owner) {
+      this.getNewNodes();
+    } else {
+      axios.get("/api/user/" + this.props.user.uid).then(res => {
+        console.log(res);
+        let trip = this.state.trip;
+        trip.owner = res.data._id;
+        this.setState({ trip });
+      });
+    }
   }
 
   getNewNodes = (trip = this.state.trip) => {
@@ -88,11 +96,38 @@ export class IvyMap extends Component {
     trip.nodes.push({ place: node.city, lat: node.latitude, lng: node.longitude });
     console.log(trip)
 
-    axios.put('/api/places/savetrip', trip).then(res => {
-      console.log(res);
-      this.getNewNodes(res.data);
-    })
+    this.saveTrip(trip);
+
+    this.getNewNodes(trip);
   }
+
+  saveTrip(trip) {
+    let interval = setTimeout(() => {
+      axios.put('/api/places/savetrip', trip).then(res => {
+        console.log(res);
+        this.setState(res.data);
+      });
+    }, 3000);
+
+    clearTimeout(this.saveInterval)
+    this.saveInterval = interval;
+  }
+
+  handleNotes = (event, value) => {
+    let trip = this.state.trip;
+    if (event.target.name === "name") {
+      trip.name = event.target.value;
+    } else if (event.target.name === "notes") {
+      trip.notes = event.target.value;
+    }
+    this.saveTrip(trip);
+    this.setState({ trip })
+  }
+
+  handleTabs = (event, value) => {
+    console.log(value);
+    this.setState({ value });
+  };
 
   render() {
     // console.log(this.state);
@@ -132,39 +167,49 @@ export class IvyMap extends Component {
 
 
         </Dialog>
-        <Map
-          google={this.props.google}
-          bounds={this.bounds}
-          style={this.style}>
+        <Grid container spacing={16}>
+          <Grid item xs={2}>
+            <SideBar
+              handleChange={this.handleTabs}
+              value={this.state.value}
+              trip={this.state.trip}
+              points={this.state.points}
+              handleNotes={this.handleNotes} />
+          </Grid>
+          <Grid item xs={10}>
+            <Map
+              google={this.props.google}
+              bounds={this.bounds}
+              style={this.style}>
 
-          {this.state.trip.nodes.map((node, ind) => {
-            return (<Marker
-              title={"Current Node"}
-              name={"Current Location"}
-              key={ind}
-              icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 5 }}
-              position={{ lat: node.lat, lng: node.lng }}
-            />);
-          })}
-
-
-
-          {this.state.points.map((node, ind) => {
-            return this.createMarker(node, ind);
-          })}
-
-          <Polyline
-            path={this.state.trip.nodes.map(node => {
-              return { lat: node.lat, lng: node.lng };
-            })}
-            strokeColor="#0000FF"
-            strokeOpacity={0.8}
-            strokeWeight={2} />
+              {this.state.trip.nodes.map((node, ind) => {
+                return (<Marker
+                  title={"Current Node"}
+                  name={"Current Location"}
+                  key={ind}
+                  icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 5 }}
+                  position={{ lat: node.lat, lng: node.lng }}
+                />);
+              })}
 
 
 
+              {this.state.points.map((node, ind) => {
+                return this.createMarker(node, ind);
+              })}
 
-          {/* <InfoWindow
+              <Polyline
+                path={this.state.trip.nodes.map(node => {
+                  return { lat: node.lat, lng: node.lng };
+                })}
+                strokeColor="#0000FF"
+                strokeOpacity={0.8}
+                strokeWeight={2} />
+
+
+
+
+              {/* <InfoWindow
           position={this.state.windowPosition}
           visible={this.state.showInfoWindow}>
           Here is {this.state.currentNode.city}
@@ -172,8 +217,10 @@ export class IvyMap extends Component {
         </InfoWindow> */}
 
 
-        </Map>
-      </div>
+            </Map>
+          </Grid>
+        </Grid>
+      </div >
     )
   }
 }

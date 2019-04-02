@@ -14,6 +14,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    document.body.style.margin = 0;
     auth.onAuthStateChanged(firebaseUser => {
       this.setState({
         user: firebaseUser

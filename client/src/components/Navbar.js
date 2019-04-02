@@ -12,6 +12,7 @@ import { withRouter, Redirect } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import auth from '../firebase/firebase'
+import API from '../utils/API';
 
 // import Avatar from "@material-ui/core/Avatar";
 const style = {
@@ -75,17 +76,25 @@ class PrimarySearchAppBar extends React.Component {
 
   logout = () => {
     auth.signOut().then(res => {
-      console.log(res);
-      this.props.history.push('/')
+      this.props.history.push('/');
     })
   }
 
   login = () => {
-    console.log(this.state);
     auth
       .signInWithEmailAndPassword(this.state.email, this.state.password)
       .then(res => {
-        console.log(res);
+        API.getUser(res.user.uid).then((user) => {
+          if (user.data === null) {
+            API.createUser(
+              {
+                name: 'ERROR',
+                email: res.user.email,
+                uid: res.user.uid
+              }
+            )
+          }
+        })
         this.props.history.push('/map')
 
       })
@@ -105,8 +114,6 @@ class PrimarySearchAppBar extends React.Component {
     const { classes } = this.props;
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-    console.log(this.props);
 
     const navbarContent = () => {
       const path = this.props.location.pathname;
@@ -189,9 +196,9 @@ class PrimarySearchAppBar extends React.Component {
         }}>
           Profile
         </MenuItem>
-        <MenuItem href="/s" onClick={() => {
+        <MenuItem href="/map" onClick={() => {
           this.handleMenuClose();
-          this.props.history.push('/s')
+          this.props.history.push('/map')
         }}>
           Map
         </MenuItem>

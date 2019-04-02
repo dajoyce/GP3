@@ -7,6 +7,7 @@ const tripScema = new Schema({
     lat: Number,
     lng: Number
   }],
+  name: String,
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User"

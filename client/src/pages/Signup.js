@@ -12,6 +12,9 @@ import Typography from "@material-ui/core/Typography";
 const style = {
   buttonStyle: {
     background: "#6c763e"
+  },
+  textFieldStyle: {
+    fullWidth: true
   }
 };
 
@@ -42,6 +45,9 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     textAlign: "center",
     color: theme.palette.text.secondary
+  },
+  input: {
+    color: "#6c763e"
   }
 });
 
@@ -105,17 +111,22 @@ class Signup extends Component {
                 id="outlined-name"
                 label="Name"
                 className={classes.textField}
+                style={style.textFieldStyle}
                 value={this.state.name}
                 onChange={this.handleChange}
                 name="name"
                 margin="normal"
                 variant="outlined"
+                InputProps={{
+                  className: classes.input
+                }}
               />
 
               <TextField
                 id="outlined-email-input"
                 label="Email"
                 className={classes.textField}
+                style={style.textFieldStyle}
                 value={this.state.email}
                 onChange={this.handleChange}
                 type="email"
@@ -123,12 +134,16 @@ class Signup extends Component {
                 autoComplete="email"
                 margin="normal"
                 variant="outlined"
+                InputProps={{
+                  className: classes.input
+                }}
               />
 
               <TextField
                 id="outlined-password-input"
                 label="Password"
                 className={classes.textField}
+                style={style.textFieldStyle}
                 value={this.state.password}
                 onChange={this.handleChange}
                 name="password"
@@ -136,6 +151,9 @@ class Signup extends Component {
                 autoComplete="current-password"
                 margin="normal"
                 variant="outlined"
+                InputProps={{
+                  className: classes.input
+                }}
               />
 
               <Button

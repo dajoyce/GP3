@@ -73,7 +73,7 @@ class Home extends Component {
             </Grid>
           </Paper>
         </Grid>
-      </Grid>
+      </ Grid >
     );
   }
 }

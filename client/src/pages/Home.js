@@ -28,7 +28,7 @@ class Home extends Component {
         <Grid item xs={12} sm={6}>
           <Paper className={this.props.classes.paper} elevation={1}>
             <Grid container justify="center">
-              <Typography variant="subtitle1" gutterBottom>
+              <Typography variant="subtitle1" gutterBottom >
                 we believe that a trip should be more than just a destination.
                 <br />
                 we believe that the idea of leaving one place simply to go enjoy
@@ -51,7 +51,7 @@ class Home extends Component {
             </Grid>
           </Paper>
         </Grid>
-      </ Grid>
+      </ Grid >
     );
   }
 }

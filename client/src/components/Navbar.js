@@ -22,7 +22,9 @@ const style = {
   },
   buttonStyle: {
     background: "#ffffff",
-    color: "#6c763e"
+    color: "#6c763e",
+    height: 60,
+    marginTop: 12.5
   }
 };
 
@@ -50,6 +52,10 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
+  },
+  textField: {},
+  input: {
+    color: "#ffffff"
   }
 });
 
@@ -135,6 +141,9 @@ class PrimarySearchAppBar extends React.Component {
                 margin="normal"
                 variant="outlined"
                 onChange={this.handleChange("email")}
+                InputProps={{
+                  className: classes.input
+                }}
               />
 
               <TextField
@@ -146,6 +155,9 @@ class PrimarySearchAppBar extends React.Component {
                 margin="normal"
                 variant="outlined"
                 onChange={this.handleChange("password")}
+                InputProps={{
+                  className: classes.input
+                }}
               />
               <Button
                 className={classes.button}
@@ -156,16 +168,6 @@ class PrimarySearchAppBar extends React.Component {
                 className={this.props.classes.button}
               >
                 Log In
-              </Button>
-              <Button
-                className={classes.button}
-                style={style.buttonStyle}
-                variant="contained"
-                color="primary"
-                href="/signup"
-                className={this.props.classes.button}
-              >
-                Sign Up
               </Button>
             </>
           );
@@ -239,17 +241,16 @@ class PrimarySearchAppBar extends React.Component {
       <div className={classes.root}>
         <AppBar style={{ display: "block" }} className={classes.appBar} style={style.appbarStyle}>
           <Toolbar>
-            {this.props.location.pathname === "/" ? "" : [
-              <IconButton
-                color="inherit"
-              >
-                <img src="/images/appbarbranding.jpg" height={40} />
-              </IconButton>,
-              <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                ivy
-              </Typography>
-            ]
-            }
+            {this.props.location.pathname === "/"
+              ? ""
+              : [
+                  <IconButton color="inherit">
+                    <img src="/images/appbarbranding.jpg" height={40} />
+                  </IconButton>,
+                  <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                    ivy
+                  </Typography>
+                ]}
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>{navbarContent()}</div>
             {renderMenu}

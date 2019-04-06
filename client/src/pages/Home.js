@@ -43,13 +43,11 @@ class Home extends Component {
               <Typography variant="subtitle1" gutterBottom style={style.typographyStyle}>
                 we believe that a trip should be more than just a destination.
                 <br />
-                we believe that the idea of leaving one place simply to go enjoy another is, well,
-                boring.
+                we believe that the idea of leaving one place simply to go enjoy another is, well, boring.
                 <br />
                 we believe that a true trip shouldn't have just one destination.
                 <br />
-                we created ivy to disrupt your typical trip planning and experience more when you
-                hit the road.
+                we created ivy to disrupt your typical trip planning and experience more when you hit the road.
                 <br />
                 ivy lets you figure out where to go with more ease and spontaneity.
                 <br />
@@ -73,7 +71,7 @@ class Home extends Component {
             </Grid>
           </Paper>
         </Grid>
-      </ Grid >
+      </Grid>
     );
   }
 }

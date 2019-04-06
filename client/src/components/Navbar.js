@@ -23,8 +23,8 @@ const style = {
   buttonStyle: {
     background: "#ffffff",
     color: "#6c763e",
-    height: 60,
-    marginTop: 12.5
+    height: 30,
+    marginTop: 18
   }
 };
 
@@ -55,7 +55,11 @@ const styles = theme => ({
   },
   textField: {},
   input: {
-    color: "#ffffff"
+    color: "#6c763e",
+    background: "white",
+    height: "40px",
+    marginRight: "10%",
+    paddingBottom: "5px"
   }
 });
 

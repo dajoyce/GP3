@@ -88,6 +88,7 @@ export class IvyMap extends Component {
       name={node.name}
       position={{ lat: node.latitude, lng: node.longitude }}
       onClick={() => this.handleMarkerClick(node)}
+      label={`${ind}`}
     />);
   }
 

@@ -4,10 +4,11 @@ import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import API from "../utils/API";
-import { Typography } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import PlaceTile from "../components/PlaceTile";
 import { withRouter, Link } from "react-router-dom";
+import Axios from "axios";
 
 const style = {
   userProfile: {
@@ -86,10 +87,21 @@ class Profile extends Component {
                 <Grid item xs={12} key={index}>
                   <Paper className={classes.paper}>
                     <Grid container spacing={16}>
-                      <Grid item xs={12}>
+                      <Grid container item xs={12} justify="space-between">
                         <Link to={"/map?id=" + trip._id}>
-                          <Typography variant="h5">{trip.name}</Typography>
+                          <Typography variant="h4">{trip.name}</Typography>
                         </Link>
+                        <Button color="secondary" onClick={() => {
+                          Axios.put("/api/places/deletetrip", { uid: trip._id }).then(val => {
+                            let trips = this.state.trips;
+                            trips.splice(index, 1);
+
+                            this.setState({trips})
+
+                          })
+                        }}>
+                          Delete Trip
+                        </Button>
                       </Grid>
 
                       <Grid item container justify="center" spacing={16}>

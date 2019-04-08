@@ -88,6 +88,8 @@ export class IvyMap extends Component {
       name={node.name}
       position={{ lat: node.latitude, lng: node.longitude }}
       onClick={() => this.handleMarkerClick(node)}
+      label={`${ind}`}
+      fillColor="#6c763e"
     />);
   }
 
@@ -210,9 +212,9 @@ export class IvyMap extends Component {
                 path={this.state.trip.nodes.map(node => {
                   return { lat: node.lat, lng: node.lng };
                 })}
-                strokeColor="#0000FF"
-                strokeOpacity={0.8}
-                strokeWeight={2} />
+                strokeColor="#6c763e"
+                strokeOpacity={1}
+                strokeWeight={3} />
 
 
 

@@ -8,7 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter, Redirect, Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import auth from "../firebase/firebase";
@@ -109,7 +109,7 @@ class PrimarySearchAppBar extends React.Component {
         });
         this.props.history.push("/map");
       })
-      .catch(function(error) {
+      .catch(function (error) {
         console.log(error);
       });
   };
@@ -248,13 +248,15 @@ class PrimarySearchAppBar extends React.Component {
             {this.props.location.pathname === "/"
               ? ""
               : [
+                <Link to={this.props.user ? "/profile" : "/"} >
                   <IconButton color="inherit">
                     <img src="/images/appbarbranding.jpg" height={40} />
-                  </IconButton>,
-                  <Typography className={classes.title} variant="h6" color="inherit" noWrap>
-                    ivy
-                  </Typography>
-                ]}
+                  </IconButton>
+                </Link>,
+                <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                  ivy
+                </Typography>
+              ]}
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>{navbarContent()}</div>
             {renderMenu}

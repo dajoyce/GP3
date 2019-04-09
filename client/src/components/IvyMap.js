@@ -32,12 +32,14 @@ export class IvyMap extends Component {
       this.state.trip.notes = "";
     }
 
-    this.places = new props.google.maps.places.PlacesService();
     this.bounds = new props.google.maps.LatLngBounds();
+    this.places = new props.google.maps.places.PlacesService();
+    this.geocoder = new props.google.maps.Geocoder();
     this.saveInterval = 0;
   }
 
   componentDidMount = () => {
+    console.log(this.places.findPlaceFromQuery);
 
     if (this.state.trip.owner) {
       this.getNewNodes();
@@ -54,7 +56,6 @@ export class IvyMap extends Component {
   componentWillUnmount() {
     axios.put('/api/places/savetrip', this.state.trip).then(res => {
       console.log(res.data);
-      this.setState({ trip: res.data });
     });
   }
 
@@ -69,7 +70,12 @@ export class IvyMap extends Component {
       this.bounds = new this.props.google.maps.LatLngBounds();
       console.log(response);
       response.data.forEach(point => {
-        this.bounds.extend({ lat: point.latitude, lng: point.longitude })
+        let latlng = { lat: point.latitude, lng: point.longitude };
+        this.geocoder.geocode({ location: latlng, result_type: "locality" }, (res, status) => {
+          console.log(res);
+          console.log(status);
+        })
+        this.bounds.extend(latlng);
       });
       this.setState({ trip, points: response.data })
     })
@@ -94,6 +100,9 @@ export class IvyMap extends Component {
   }
 
   handleMarkerHover = (node, event) => {
+
+
+
     this.setState({ showInfoWindow: true, windowPosition: event.position, currentNode: node })
   }
 

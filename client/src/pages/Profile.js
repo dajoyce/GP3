@@ -96,7 +96,7 @@ class Profile extends Component {
                             let trips = this.state.trips;
                             trips.splice(index, 1);
 
-                            this.setState({trips})
+                            this.setState({ trips });
 
                           })
                         }}>

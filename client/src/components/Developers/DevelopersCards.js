@@ -14,7 +14,8 @@ import Grid from "@material-ui/core/Grid";
 
 const styles = {
   card: {
-    maxWidth: 220
+    maxWidth: 220,
+    height: 485
   },
   media: {
     height: 180

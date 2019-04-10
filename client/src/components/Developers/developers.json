@@ -3,14 +3,14 @@
     "name": "Laura Gillespie",
     "firstName": "Laura",
     "imageURL": "/images/LauraIcon.jpeg",
-    "about": "",
+    "about": "With a background in social media marketing and a love for video games, Laura has always been tech savvy. After graduating from UNC's Coding Bootcamp, Laura plans to jumpstart her new career in web development.",
     "portfolioURL": "https://www.lauragillespie.org/"
   },
   {
     "name": "David Joyce",
     "firstName": "David",
     "imageURL": "/images/DavidIcon.jpg",
-    "about": "After countless hours in court rooms, David decided it was time to switch things up. With developer skills from UNC's Coding Bootcamp, David aspires to combine his programming knowledge and leadership experience in a project management role.",
+    "about": "After countless hours in court rooms, David decided it was time to switch things up. With developer skills from UNC's Coding Bootcamp, David aspires to take his programming knowledge and leadership experience in a project management role.",
     "portfolioURL": "https://dajoyce.github.io/Bootstrap-Portfolio/"
   },
   {
@@ -24,14 +24,14 @@
     "name": "Jerome Magolan",
     "firstName": "Jerome",
     "imageURL": "/images/JeromeIcon.jpg",
-    "about": "Wisconsin-born and Carolina-bred, Jerome has worked in the automobile industry since 2005. Recently, he found his calling for web development and enrolled in this course as a way to accelerate his new career path. ",
+    "about": "Wisconsin-born and Carolina-bred, Jerome has worked in the automobile industry since 2005. Recently, he found his calling for web development and enrolled in UNC's Coding Bootcamp as a way to accelerate his new career path. ",
     "portfolioURL": "https://jeromehd.github.io/Portfolio/"
   },
   {
     "name": "Hannah Shaw",
     "firstName": "Hannah",
     "imageURL": "/images/HannahIcon.jpeg",
-    "about": "",
+    "about": "After two years in the technology industry, Hannah enrolled in UNC’s Coding Bootcamp to expand her technical education. After graduation, Hannah hopes to integrate her web development skills into her current role at IBM.",
     "portfolioURL": "https://www.shawletsweb.com"
   }
 ]

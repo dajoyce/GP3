@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Laura Gillespie",
+    "firstName": "Laura",
+    "imageURL": "/images/LauraIcon.jpeg",
+    "about": "",
+    "portfolioURL": "https://www.lauragillespie.org/"
+  },
+  {
+    "name": "David Joyce",
+    "firstName": "David",
+    "imageURL": "/images/DavidIcon.jpg",
+    "about": "After countless hours in court rooms, David decided it was time to switch things up. With developer skills from UNC's Coding Bootcamp, David aspires to combine his programming knowledge and leadership experience in a project management role.",
+    "portfolioURL": "https://dajoyce.github.io/Bootstrap-Portfolio/"
+  },
+  {
+    "name": "Ross Gongaware",
+    "firstName": "Ross",
+    "imageURL": "/images/RossIcon.jpeg",
+    "about": "Ross' passion for coding started when he was a kid and programmed with his father on projects and puzzles. Now, after spending some time post-grad roasting coffee, Ross wants to turn his hobby into a new career.",
+    "portfolioURL": "https://ross.gongaware.org"
+  },
+  {
+    "name": "Jerome Magolan",
+    "firstName": "Jerome",
+    "imageURL": "/images/JeromeIcon.jpg",
+    "about": "Wisconsin-born and Carolina-bred, Jerome has worked in the automobile industry since 2005. Recently, he found his calling for web development and enrolled in this course as a way to accelerate his new career path. ",
+    "portfolioURL": "https://jeromehd.github.io/Portfolio/"
+  },
+  {
+    "name": "Hannah Shaw",
+    "firstName": "Hannah",
+    "imageURL": "/images/HannahIcon.jpeg",
+    "about": "",
+    "portfolioURL": "https://www.shawletsweb.com"
+  }
+]

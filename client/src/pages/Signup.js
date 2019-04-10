@@ -178,8 +178,9 @@ class Signup extends Component {
               What We Do With Your Info
             </Typography>
             <Typography variant="body1" gutterBottom>
-              This is a section that will say what we are using the users info for and how we use it
-              but for now it is this dummy text. Please enjoy.
+              All of your information is stored securely in our database and is NEVER shared with
+              anyone. We take your privacy seriously! All information provided is used to make your
+              experience with Ivy a pleasant one. So sit back and enjoy the ride.
             </Typography>
           </Grid>
         </Grid>

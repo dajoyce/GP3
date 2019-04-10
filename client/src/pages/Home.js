@@ -29,6 +29,9 @@ const styles = theme => ({
   },
   body: {
     backgroundImage: "url('/images/highway-background.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     display: "flex",
     justifyContent: "center",
     width: "100%",

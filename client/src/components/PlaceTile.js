@@ -14,7 +14,6 @@ class PlaceTile extends Component {
         width: this.container.offsetWidth,
       },
     });
-    console.log(this.container.offsetWidth)
   }
 
   renderContent() {

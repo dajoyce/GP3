@@ -250,7 +250,7 @@ class PrimarySearchAppBar extends React.Component {
               : [
                 <Link to={this.props.user ? "/profile" : "/"} >
                   <IconButton color="inherit">
-                    <img src="/images/appbarbranding.jpg" height={40} />
+                    <img src="/favicon.ico" height={40} />
                   </IconButton>
                 </Link>,
                 <Typography className={classes.title} variant="h6" color="inherit" noWrap>

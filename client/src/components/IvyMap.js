@@ -11,6 +11,8 @@ export class IvyMap extends Component {
     super(props);
 
     console.log(props);
+    let name = props.trip ? props.trip.name : "trip";
+    let notes = props.trip ? props.trip.notes : "trip";
 
     this.state = {
       zoom: props.zoom || 15,
@@ -19,10 +21,10 @@ export class IvyMap extends Component {
       windowPosition: { lng: 0, lat: 0 },
       currentNode: {},
       value: 0,
+      name: name,
+      notes: notes,
       trip: props.trip || {
-        name: "trip",
         owner: null,
-        notes: "",
         nodes: [
         ]
       }
@@ -32,12 +34,14 @@ export class IvyMap extends Component {
       this.state.trip.notes = "";
     }
 
-    this.places = new props.google.maps.places.PlacesService();
     this.bounds = new props.google.maps.LatLngBounds();
+    this.places = new props.google.maps.places.PlacesService();
+    this.geocoder = new props.google.maps.Geocoder();
     this.saveInterval = 0;
   }
 
   componentDidMount = () => {
+    console.log(this.places.findPlaceFromQuery);
 
     if (this.state.trip.owner) {
       this.getNewNodes();
@@ -54,7 +58,6 @@ export class IvyMap extends Component {
   componentWillUnmount() {
     axios.put('/api/places/savetrip', this.state.trip).then(res => {
       console.log(res.data);
-      this.setState({ trip: res.data });
     });
   }
 
@@ -69,7 +72,12 @@ export class IvyMap extends Component {
       this.bounds = new this.props.google.maps.LatLngBounds();
       console.log(response);
       response.data.forEach(point => {
-        this.bounds.extend({ lat: point.latitude, lng: point.longitude })
+        let latlng = { lat: point.latitude, lng: point.longitude };
+        this.geocoder.geocode({ location: latlng, result_type: "locality" }, (res, status) => {
+          console.log(res);
+          console.log(status);
+        })
+        this.bounds.extend(latlng);
       });
       this.setState({ trip, points: response.data })
     })
@@ -93,10 +101,6 @@ export class IvyMap extends Component {
     />);
   }
 
-  handleMarkerHover = (node, event) => {
-    this.setState({ showInfoWindow: true, windowPosition: event.position, currentNode: node })
-  }
-
   handleMarkerClick = (node) => {
     var trip = this.state.trip;
 
@@ -111,27 +115,27 @@ export class IvyMap extends Component {
   }
 
   saveTrip(trip) {
-    let interval = setTimeout(() => {
+    clearTimeout(this.saveInterval)
+    let dbStyle = trip;
+    dbStyle.name = this.state.name;
+    dbStyle.notes = this.state.notes;
+    this.saveInterval = setTimeout(() => {
       console.log("saved")
-      axios.put('/api/places/savetrip', trip).then(res => {
+      axios.put('/api/places/savetrip', dbStyle).then(res => {
         console.log(res.data);
         this.setState({ trip: res.data });
       });
     }, 3000);
-
-    clearTimeout(this.saveInterval)
-    this.saveInterval = interval;
   }
 
   handleNotes = (event, value) => {
-    let trip = this.state.trip;
     if (event.target.name === "name") {
-      trip.name = event.target.value;
+      this.setState({ name: event.target.value });
     } else if (event.target.name === "notes") {
-      trip.notes = event.target.value;
+      this.setState({ notes: event.target.value });
     }
-    this.saveTrip(trip);
-    this.setState({ trip })
+
+    this.saveTrip(this.state.trip);
   }
 
   handleTabs = (event, value) => {
@@ -147,6 +151,11 @@ export class IvyMap extends Component {
       height: "100%",
       width: window.innerWidth
     }
+
+    let trip = this.state.trip;
+
+    trip.name = this.state.name;
+    trip.notes = this.state.notes;
 
     return (
 
@@ -182,7 +191,7 @@ export class IvyMap extends Component {
             <SideBar
               handleChange={this.handleTabs}
               value={this.state.value}
-              trip={this.state.trip}
+              trip={trip}
               points={this.state.points}
               handleNotes={this.handleNotes} />
           </Grid>
@@ -197,7 +206,7 @@ export class IvyMap extends Component {
                   title={"Current Node"}
                   name={"Current Location"}
                   key={ind}
-                  icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 5 }}
+                  icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
                   position={{ lat: node.lat, lng: node.lng }}
                 />);
               })}
@@ -215,9 +224,6 @@ export class IvyMap extends Component {
                 strokeColor="#6c763e"
                 strokeOpacity={1}
                 strokeWeight={3} />
-
-
-
 
               {/* <InfoWindow
           position={this.state.windowPosition}

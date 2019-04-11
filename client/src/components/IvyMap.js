@@ -161,7 +161,7 @@ export class IvyMap extends Component {
 
     return (
 
-      <div>
+      <div style={this.props.style}>
         <Dialog
           open={!this.state.trip.nodes.length}
 
@@ -188,7 +188,7 @@ export class IvyMap extends Component {
 
 
         </Dialog>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} style={{ height: "100%" }}>
           <Grid item xs={3}>
             <SideBar
               handleChange={this.handleTabs}

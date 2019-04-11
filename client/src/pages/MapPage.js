@@ -35,9 +35,7 @@ class MapPage extends Component {
   render() {
     console.log(this.state);
     return (
-      <div style={containerStyle}>
-        <IvyMap trip={this.state.trip} {...this.props} key={this.state.trip ? this.state.trip._id : 0} />
-      </div>
+      <IvyMap style={containerStyle} trip={this.state.trip} {...this.props} key={this.state.trip ? this.state.trip._id : 0} />
     )
   }
 }

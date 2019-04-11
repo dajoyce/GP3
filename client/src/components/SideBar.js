@@ -64,7 +64,7 @@ function notes(handleNotes, notes) {
 
 export default function SideBar(props) {
   return (
-    <div style={{ overflow: "auto", maxHeight: "100vh" }}>
+    <div style={{ overflow: "auto", position: "absolute", top: 0, bottom: 0 }}>
       <Tabs value={props.value} onChange={props.handleChange} variant="fullWidth">
 
         <Tab label="Info" />

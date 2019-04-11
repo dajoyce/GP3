@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react';
 import axios from 'axios';
-import { Dialog, DialogContentText, DialogContent, Grid } from '@material-ui/core';
+import { Dialog, DialogContentText, DialogContent, Grid, Typography } from '@material-ui/core';
 import Autocomplete from 'react-google-autocomplete';
 import SideBar from '../components/SideBar';
 
@@ -17,7 +17,6 @@ export class IvyMap extends Component {
     this.state = {
       zoom: props.zoom || 15,
       points: props.points || [],
-      showInfoWindow: false,
       windowPosition: { lng: 0, lat: 0 },
       currentNode: {},
       value: 0,
@@ -27,6 +26,10 @@ export class IvyMap extends Component {
         owner: null,
         nodes: [
         ]
+      },
+      activeMarker: {
+        node: -1,
+        marker: null
       }
     }
 
@@ -37,6 +40,8 @@ export class IvyMap extends Component {
     this.bounds = new props.google.maps.LatLngBounds();
     this.places = new props.google.maps.places.PlacesService();
     this.geocoder = new props.google.maps.Geocoder();
+    this.directionsService = new props.google.maps.DirectionsService();
+    this.directionsDisplay = new props.google.maps.DirectionsRenderer();
     this.saveInterval = 0;
   }
 
@@ -75,21 +80,16 @@ export class IvyMap extends Component {
       console.log(response);
       response.data.forEach(point => {
         let latlng = { lat: point.latitude, lng: point.longitude };
-        this.geocoder.geocode({ location: latlng, result_type: "locality" }, (res, status) => {
-          console.log(res);
-          console.log(status);
-        })
         this.bounds.extend(latlng);
       });
       this.setState({ trip, points: response.data })
-    })
+    });
   }
 
-  //   onMouseover = {(event) => this.handleMarkerHover(node, event)}
-  // onMouseout = {() => {
-  //   console.log("OUT");
-  //   this.setState({ showInfoWindow: false })
-  // }}
+  onMouseover = (ind, marker) => {
+    console.log("here");
+    this.setState({ activeMarker: { node: ind, marker } })
+  }
 
   createMarker = (node, ind) => {
     return (<Marker
@@ -143,7 +143,38 @@ export class IvyMap extends Component {
   handleTabs = (event, value) => {
     console.log(value);
     this.setState({ value });
-  };
+  }
+
+  printDirection() {
+    console.log(this.directionsService);
+    this.directionsDisplay.setMap(this.map);
+    this.directionsService = new this.props.google.maps.DirectionsService();
+
+    if (this.state.trip.nodes.length > 1) {
+      let currentNode = this.state.trip.nodes[0];
+
+      for (let next = 1; next < this.state.trip.nodes.length; next++) {
+        let nextNode = this.state.trip.nodes[next];
+        console.log("here")
+        var request = {
+          origin: { lat: currentNode.latitude, lng: currentNode.longitude },
+          destination: { lat: nextNode.latitude, lng: nextNode.longitude },
+          travelMode: "DRIVING"
+        }
+        this.directionsService.route(request, function (response, status) {
+          console.log(status)
+          if (status == 'OK') {
+            this.directionsDisplay.setDirections(response);
+          }
+        })
+        currentNode = nextNode
+      }
+    }
+  }
+
+  mapReady = (mapProps, map) => {
+    this.map = map;
+  }
 
   render() {
     // console.log(this.state);
@@ -195,13 +226,15 @@ export class IvyMap extends Component {
               value={this.state.value}
               trip={trip}
               points={this.state.points}
-              handleNotes={this.handleNotes} />
+              handleNotes={this.handleNotes}
+            />
           </Grid>
           <Grid item xs={9} style={{ position: "relative" }}>
             <div style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}>
               <Map
                 google={this.props.google}
-                bounds={this.bounds} >
+                bounds={this.bounds}
+                onReady={this.mapReady}>
 
                 {this.state.trip.nodes.map((node, ind) => {
                   return (<Marker

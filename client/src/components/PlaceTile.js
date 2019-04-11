@@ -14,7 +14,8 @@ const mapStyle = {
 const cardStyle = {
   position: "relative",
   width: "100%",
-  height: 200
+  height: 200,
+  backgroundColor: "#fefefe"
 }
 
 function PlaceTile(props) {
@@ -25,6 +26,7 @@ function PlaceTile(props) {
           google={props.google}
           initialCenter={{ lat: props.lat, lng: props.lng }}
           style={mapStyle}
+          zoom={10}
           disableDefaultUI
           draggable={false} />
         <CardContent style={{ position: "absolute", top: 100 }}>

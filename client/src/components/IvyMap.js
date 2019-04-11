@@ -149,10 +149,10 @@ export class IvyMap extends Component {
     // console.log(this.state);
     //console.log(process.env);
 
-    this.style = {
-      height: "100%",
-      width: window.innerWidth
-    }
+    // this.style = {
+    //   height: "100%",
+    //   width: window.innerWidth
+    // }
 
     let trip = this.state.trip;
 
@@ -197,45 +197,39 @@ export class IvyMap extends Component {
               points={this.state.points}
               handleNotes={this.handleNotes} />
           </Grid>
-          <Grid item xs={9}>
-            <Map
-              google={this.props.google}
-              bounds={this.bounds}
-              style={this.style}>
+          <Grid item xs={9} style={{ position: "relative" }}>
+            <div style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}>
+              <Map
+                google={this.props.google}
+                bounds={this.bounds} >
 
-              {this.state.trip.nodes.map((node, ind) => {
-                return (<Marker
-                  title={"Current Node"}
-                  name={"Current Location"}
-                  key={ind}
-                  icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
-                  position={{ lat: node.lat, lng: node.lng }}
-                />);
-              })}
-
-
-
-              {this.state.points.map((node, ind) => {
-                return this.createMarker(node, ind);
-              })}
-
-              <Polyline
-                path={this.state.trip.nodes.map(node => {
-                  return { lat: node.lat, lng: node.lng };
+                {this.state.trip.nodes.map((node, ind) => {
+                  return (<Marker
+                    title={"Current Node"}
+                    name={"Current Location"}
+                    key={ind}
+                    icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
+                    position={{ lat: node.lat, lng: node.lng }}
+                  />);
                 })}
-                strokeColor="#6c763e"
-                strokeOpacity={1}
-                strokeWeight={3} />
-
-              {/* <InfoWindow
-          position={this.state.windowPosition}
-          visible={this.state.showInfoWindow}>
-          Here is {this.state.currentNode.city}
-
-        </InfoWindow> */}
 
 
-            </Map>
+
+                {this.state.points.map((node, ind) => {
+                  return this.createMarker(node, ind);
+                })}
+
+                <Polyline
+                  path={this.state.trip.nodes.map(node => {
+                    return { lat: node.lat, lng: node.lng };
+                  })}
+                  strokeColor="#6c763e"
+                  strokeOpacity={1}
+                  strokeWeight={3} />
+
+
+              </Map>
+            </div>
           </Grid>
         </Grid>
       </div >

@@ -3,6 +3,13 @@ import IvyMap from "../components/IvyMap";
 import { withRouter } from 'react-router-dom'
 import API from '../utils/API';
 
+const containerStyle = {
+  width: "100%",
+  position: "absolute",
+  top: 64,
+  bottom: 0,
+}
+
 class MapPage extends Component {
   state = {
     trip: null
@@ -28,9 +35,7 @@ class MapPage extends Component {
   render() {
     console.log(this.state);
     return (
-      <div>
-        <IvyMap trip={this.state.trip} {...this.props} key={this.state.trip ? this.state.trip._id : 0} />
-      </div>
+      <IvyMap style={containerStyle} trip={this.state.trip} {...this.props} key={this.state.trip ? this.state.trip._id : 0} />
     )
   }
 }

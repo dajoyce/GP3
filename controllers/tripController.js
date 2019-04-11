@@ -25,5 +25,8 @@ module.exports = {
         cb(doc);
       });
     }
+  },
+  deleteTrip: function (id, cb) {
+    db.Trip.findOneAndDelete({ _id: id }, cb);
   }
 }

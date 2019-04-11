@@ -31,7 +31,7 @@ function info(trip, handle) {
 function POIs(points) {
   console.log(points);
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" spacing={16} alignItems="stretch">
       {points.map((place, index) => {
         return (<Grid item xs={12} key={index}>
           < PlaceTile title={place.city} lat={place.latitude} lng={place.longitude} />
@@ -64,14 +64,14 @@ function notes(handleNotes, notes) {
 
 export default function SideBar(props) {
   return (
-    <div>
-      <div>
-        <Tabs value={props.value} onChange={props.handleChange} variant="fullWidth">
+    <div style={{ overflow: "auto", position: "absolute", top: 0, bottom: 0 }}>
+      <Tabs value={props.value} onChange={props.handleChange} variant="fullWidth">
 
-          <Tab label="Info" />
-          <Tab label="Points of Interest" />
-          <Tab label="Notes" />
-        </Tabs>
+        <Tab label="Info" />
+        <Tab label="Points of Interest" />
+        <Tab label="Notes" />
+      </Tabs>
+      <div style={{ padding: 16 }}>
         {props.value === 0 && info(props.trip, props.handleNotes)}
         {props.value === 1 && POIs(props.points)}
         {props.value === 2 && notes(props.handleNotes, props.trip.notes)}

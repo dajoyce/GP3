@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Map, InfoWindow, Marker, GoogleApiWrapper, Polyline } from 'google-maps-react';
 import axios from 'axios';
-import { Dialog, DialogContentText, DialogContent, Grid } from '@material-ui/core';
+import { Dialog, DialogContentText, DialogContent, Grid, Typography } from '@material-ui/core';
 import Autocomplete from 'react-google-autocomplete';
 import SideBar from '../components/SideBar';
 
@@ -17,7 +17,6 @@ export class IvyMap extends Component {
     this.state = {
       zoom: props.zoom || 15,
       points: props.points || [],
-      showInfoWindow: false,
       windowPosition: { lng: 0, lat: 0 },
       currentNode: {},
       value: 0,
@@ -27,6 +26,10 @@ export class IvyMap extends Component {
         owner: null,
         nodes: [
         ]
+      },
+      activeMarker: {
+        node: -1,
+        marker: null
       }
     }
 
@@ -37,6 +40,8 @@ export class IvyMap extends Component {
     this.bounds = new props.google.maps.LatLngBounds();
     this.places = new props.google.maps.places.PlacesService();
     this.geocoder = new props.google.maps.Geocoder();
+    this.directionsService = new props.google.maps.DirectionsService();
+    this.directionsDisplay = new props.google.maps.DirectionsRenderer();
     this.saveInterval = 0;
   }
 
@@ -56,9 +61,11 @@ export class IvyMap extends Component {
   }
 
   componentWillUnmount() {
-    axios.put('/api/places/savetrip', this.state.trip).then(res => {
-      console.log(res.data);
-    });
+    if (this.state.trip.nodes.length > 0) {
+      axios.put('/api/places/savetrip', this.state.trip).then(res => {
+        console.log(res.data);
+      });
+    }
   }
 
   getNewNodes = (trip = this.state.trip) => {
@@ -73,21 +80,16 @@ export class IvyMap extends Component {
       console.log(response);
       response.data.forEach(point => {
         let latlng = { lat: point.latitude, lng: point.longitude };
-        this.geocoder.geocode({ location: latlng, result_type: "locality" }, (res, status) => {
-          console.log(res);
-          console.log(status);
-        })
         this.bounds.extend(latlng);
       });
       this.setState({ trip, points: response.data })
-    })
+    });
   }
 
-  //   onMouseover = {(event) => this.handleMarkerHover(node, event)}
-  // onMouseout = {() => {
-  //   console.log("OUT");
-  //   this.setState({ showInfoWindow: false })
-  // }}
+  onMouseover = (ind, marker) => {
+    console.log("here");
+    this.setState({ activeMarker: { node: ind, marker } })
+  }
 
   createMarker = (node, ind) => {
     return (<Marker
@@ -141,16 +143,47 @@ export class IvyMap extends Component {
   handleTabs = (event, value) => {
     console.log(value);
     this.setState({ value });
-  };
+  }
+
+  printDirection() {
+    console.log(this.directionsService);
+    this.directionsDisplay.setMap(this.map);
+    this.directionsService = new this.props.google.maps.DirectionsService();
+
+    if (this.state.trip.nodes.length > 1) {
+      let currentNode = this.state.trip.nodes[0];
+
+      for (let next = 1; next < this.state.trip.nodes.length; next++) {
+        let nextNode = this.state.trip.nodes[next];
+        console.log("here")
+        var request = {
+          origin: { lat: currentNode.latitude, lng: currentNode.longitude },
+          destination: { lat: nextNode.latitude, lng: nextNode.longitude },
+          travelMode: "DRIVING"
+        }
+        this.directionsService.route(request, function (response, status) {
+          console.log(status)
+          if (status == 'OK') {
+            this.directionsDisplay.setDirections(response);
+          }
+        })
+        currentNode = nextNode
+      }
+    }
+  }
+
+  mapReady = (mapProps, map) => {
+    this.map = map;
+  }
 
   render() {
     // console.log(this.state);
     //console.log(process.env);
 
-    this.style = {
-      height: "100%",
-      width: window.innerWidth
-    }
+    // this.style = {
+    //   height: "100%",
+    //   width: window.innerWidth
+    // }
 
     let trip = this.state.trip;
 
@@ -159,7 +192,7 @@ export class IvyMap extends Component {
 
     return (
 
-      <div>
+      <div style={this.props.style}>
         <Dialog
           open={!this.state.trip.nodes.length}
 
@@ -186,54 +219,50 @@ export class IvyMap extends Component {
 
 
         </Dialog>
-        <Grid container spacing={16}>
-          <Grid item xs={4}>
+        <Grid container spacing={0} style={{ height: "100%" }}>
+          <Grid item xs={3}>
             <SideBar
               handleChange={this.handleTabs}
               value={this.state.value}
               trip={trip}
               points={this.state.points}
-              handleNotes={this.handleNotes} />
+              handleNotes={this.handleNotes}
+            />
           </Grid>
-          <Grid item xs={8}>
-            <Map
-              google={this.props.google}
-              bounds={this.bounds}
-              style={this.style}>
+          <Grid item xs={9} style={{ position: "relative" }}>
+            <div style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}>
+              <Map
+                google={this.props.google}
+                bounds={this.bounds}
+                onReady={this.mapReady}>
 
-              {this.state.trip.nodes.map((node, ind) => {
-                return (<Marker
-                  title={"Current Node"}
-                  name={"Current Location"}
-                  key={ind}
-                  icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
-                  position={{ lat: node.lat, lng: node.lng }}
-                />);
-              })}
-
-
-
-              {this.state.points.map((node, ind) => {
-                return this.createMarker(node, ind);
-              })}
-
-              <Polyline
-                path={this.state.trip.nodes.map(node => {
-                  return { lat: node.lat, lng: node.lng };
+                {this.state.trip.nodes.map((node, ind) => {
+                  return (<Marker
+                    title={"Current Node"}
+                    name={"Current Location"}
+                    key={ind}
+                    icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
+                    position={{ lat: node.lat, lng: node.lng }}
+                  />);
                 })}
-                strokeColor="#6c763e"
-                strokeOpacity={1}
-                strokeWeight={3} />
-
-              {/* <InfoWindow
-          position={this.state.windowPosition}
-          visible={this.state.showInfoWindow}>
-          Here is {this.state.currentNode.city}
-
-        </InfoWindow> */}
 
 
-            </Map>
+
+                {this.state.points.map((node, ind) => {
+                  return this.createMarker(node, ind);
+                })}
+
+                <Polyline
+                  path={this.state.trip.nodes.map(node => {
+                    return { lat: node.lat, lng: node.lng };
+                  })}
+                  strokeColor="#6c763e"
+                  strokeOpacity={1}
+                  strokeWeight={3} />
+
+
+              </Map>
+            </div>
           </Grid>
         </Grid>
       </div >

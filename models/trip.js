@@ -5,7 +5,8 @@ const tripScema = new Schema({
   nodes: [{
     place: String,
     lat: Number,
-    lng: Number
+    lng: Number,
+    photo: String
   }],
   name: String,
   notes: String,

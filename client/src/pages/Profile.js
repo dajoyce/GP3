@@ -82,46 +82,52 @@ class Profile extends Component {
             sm={9}
             spacing={16}
           >
-            {this.state.trips.map((trip, index) => {
-              return (
-                <Grid item xs={12} key={index}>
-                  <Paper className={classes.paper}>
-                    <Grid container spacing={16}>
-                      <Grid container item xs={12} justify="space-between">
-                        <Link to={"/map?id=" + trip._id}>
-                          <Typography variant="h4">{trip.name}</Typography>
-                        </Link>
-                        <Button color="secondary" onClick={() => {
-                          Axios.put("/api/places/deletetrip", { uid: trip._id }).then(val => {
-                            let trips = this.state.trips;
-                            trips.splice(index, 1);
+            {
+              (this.state.trips.length === 0) ?
+                (<Link to="/map" ><Button color="secondary">Create your first Trip</Button></Link>)
+                :
+                this.state.trips.map((trip, index) => {
+                  return (
+                    <Grid item xs={12} key={index}>
+                      <Paper className={classes.paper}>
+                        <Grid container spacing={16}>
+                          <Grid container item xs={12} justify="space-between">
+                            <Link to={"/map?id=" + trip._id}>
+                              <Typography variant="h4">{trip.name}</Typography>
+                            </Link>
+                            <Button color="secondary" onClick={() => {
+                              Axios.put("/api/places/deletetrip", { uid: trip._id }).then(val => {
+                                let trips = this.state.trips;
+                                trips.splice(index, 1);
 
-                            this.setState({ trips });
+                                this.setState({ trips });
 
-                          })
-                        }}>
-                          Delete Trip
+                              })
+                            }}>
+                              Delete Trip
                         </Button>
-                      </Grid>
+                          </Grid>
 
-                      <Grid item container justify="center" spacing={16}>
-                        {trip.nodes.map((place, index) => {
-                          return (
-                            <Grid item xs={3} key={index}>
-                              <PlaceTile
-                                title={place.place}
-                                lat={place.lat}
-                                lng={place.lng}
-                              />
-                            </Grid>
-                          );
-                        })}
-                      </Grid>
+                          <Grid item container justify="center" spacing={16}>
+                            {trip.nodes.map((place, index) => {
+                              return (
+                                <Grid item xs={3} key={index}>
+                                  <PlaceTile
+                                    title={place.place}
+                                    lat={place.lat}
+                                    lng={place.lng}
+                                  />
+                                </Grid>
+                              );
+                            })}
+                          </Grid>
+                        </Grid>
+                      </Paper>
                     </Grid>
-                  </Paper>
-                </Grid>
-              );
-            })}
+                  );
+                })
+            }
+
           </Grid>
         </Grid>
       </div>

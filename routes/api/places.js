@@ -38,5 +38,9 @@ router.get("/findtrip", (req, res) => {
   });
 })
 
+router.put("/deletetrip", (req, res) => {
+  tripDB.deleteTrip(req.body.uid, (data) => res.send(data));
+})
+
 
 module.exports = router;

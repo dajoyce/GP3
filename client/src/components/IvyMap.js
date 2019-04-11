@@ -56,9 +56,11 @@ export class IvyMap extends Component {
   }
 
   componentWillUnmount() {
-    axios.put('/api/places/savetrip', this.state.trip).then(res => {
-      console.log(res.data);
-    });
+    if (this.state.trip.nodes.length > 0) {
+      axios.put('/api/places/savetrip', this.state.trip).then(res => {
+        console.log(res.data);
+      });
+    }
   }
 
   getNewNodes = (trip = this.state.trip) => {
@@ -186,8 +188,8 @@ export class IvyMap extends Component {
 
 
         </Dialog>
-        <Grid container spacing={16}>
-          <Grid item xs={4}>
+        <Grid container spacing={0}>
+          <Grid item xs={3}>
             <SideBar
               handleChange={this.handleTabs}
               value={this.state.value}
@@ -195,7 +197,7 @@ export class IvyMap extends Component {
               points={this.state.points}
               handleNotes={this.handleNotes} />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <Map
               google={this.props.google}
               bounds={this.bounds}

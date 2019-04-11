@@ -64,18 +64,16 @@ function notes(handleNotes, notes) {
 
 export default function SideBar(props) {
   return (
-    <div>
-      <div>
-        <Tabs value={props.value} onChange={props.handleChange} variant="fullWidth">
+    <div style={{ overflow: "auto", maxHeight: "100vh" }}>
+      <Tabs value={props.value} onChange={props.handleChange} variant="fullWidth">
 
-          <Tab label="Info" />
-          <Tab label="Points of Interest" />
-          <Tab label="Notes" />
-        </Tabs>
-        {props.value === 0 && info(props.trip, props.handleNotes)}
-        {props.value === 1 && POIs(props.points)}
-        {props.value === 2 && notes(props.handleNotes, props.trip.notes)}
-      </div>
+        <Tab label="Info" />
+        <Tab label="Points of Interest" />
+        <Tab label="Notes" />
+      </Tabs>
+      {props.value === 0 && info(props.trip, props.handleNotes)}
+      {props.value === 1 && POIs(props.points)}
+      {props.value === 2 && notes(props.handleNotes, props.trip.notes)}
     </div>
   )
 }

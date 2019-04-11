@@ -22,7 +22,8 @@ const styles = theme => ({
   container: {
     display: "flex",
     flexWrap: "wrap",
-    marginTop: "5%"
+    marginTop: "5%",
+    flexDirection: "column"
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -106,7 +107,7 @@ class Signup extends Component {
             <Typography variant="h6" gutterBottom>
               Sign Up
             </Typography>
-            <form className={classes.container} noValidate autoComplete="off" alignItems="center">
+            <form className={classes.container} noValidate autoComplete="off">
               <TextField
                 id="outlined-name"
                 label="Name"

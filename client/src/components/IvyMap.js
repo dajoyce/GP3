@@ -220,7 +220,7 @@ export class IvyMap extends Component {
 
         </Dialog>
         <Grid container spacing={0} style={{ height: "100%" }}>
-          <Grid item xs={3}>
+          <Grid item xs={3} style={{ position: "relative" }}>
             <SideBar
               handleChange={this.handleTabs}
               value={this.state.value}
@@ -229,39 +229,41 @@ export class IvyMap extends Component {
               handleNotes={this.handleNotes}
             />
           </Grid>
-          <Grid item xs={9} style={{ position: "relative" }}>
-            <div style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}>
-              <Map
-                google={this.props.google}
-                bounds={this.bounds}
-                onReady={this.mapReady}>
+          <Grid item xs={9} >
+            <div style={{ position: "relative", height: "100%", width: "100%" }}>
+              <div style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}>
+                <Map
+                  google={this.props.google}
+                  bounds={this.bounds}
+                  onReady={this.mapReady}>
 
-                {this.state.trip.nodes.map((node, ind) => {
-                  return (<Marker
-                    title={"Current Node"}
-                    name={"Current Location"}
-                    key={ind}
-                    icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
-                    position={{ lat: node.lat, lng: node.lng }}
-                  />);
-                })}
-
-
-
-                {this.state.points.map((node, ind) => {
-                  return this.createMarker(node, ind);
-                })}
-
-                <Polyline
-                  path={this.state.trip.nodes.map(node => {
-                    return { lat: node.lat, lng: node.lng };
+                  {this.state.trip.nodes.map((node, ind) => {
+                    return (<Marker
+                      title={"Current Node"}
+                      name={"Current Location"}
+                      key={ind}
+                      icon={{ path: this.props.google.maps.SymbolPath.CIRCLE, scale: 7 }}
+                      position={{ lat: node.lat, lng: node.lng }}
+                    />);
                   })}
-                  strokeColor="#6c763e"
-                  strokeOpacity={1}
-                  strokeWeight={3} />
 
 
-              </Map>
+
+                  {this.state.points.map((node, ind) => {
+                    return this.createMarker(node, ind);
+                  })}
+
+                  <Polyline
+                    path={this.state.trip.nodes.map(node => {
+                      return { lat: node.lat, lng: node.lng };
+                    })}
+                    strokeColor="#6c763e"
+                    strokeOpacity={1}
+                    strokeWeight={3} />
+
+
+                </Map>
+              </div>
             </div>
           </Grid>
         </Grid>

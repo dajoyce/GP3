@@ -47,7 +47,7 @@ function notes(handleNotes, notes) {
     <Grid container direction="column">
       <Typography variant="h6">
         Trip Notes
-    </Typography>
+     </Typography>
       <TextField
         id="standard-multiline-flexible"
         label="Notes"
@@ -64,17 +64,17 @@ function notes(handleNotes, notes) {
 
 export default function SideBar(props) {
   return (
-    <div style={{ overflow: "auto", position: "absolute", top: 0, bottom: 0, left: 0, right: 0 }}>
-      <Tabs value={props.value} onChange={props.handleChange} variant="fullWidth">
+    <div>
+      <Tabs value={props.tab} onChange={props.handleChange} variant="fullWidth">
 
         <Tab label="Info" />
         <Tab label="Points of Interest" />
         <Tab label="Notes" />
       </Tabs>
       <div style={{ padding: 16 }}>
-        {props.value === 0 && info(props.trip, props.handleNotes)}
-        {props.value === 1 && POIs(props.points)}
-        {props.value === 2 && notes(props.handleNotes, props.trip.notes)}
+        {props.tab === 0 && info(props.trip, props.handleNotes)}
+        {props.tab === 1 && POIs(props.points)}
+        {props.tab === 2 && notes(props.handleNotes, props.trip.notes)}
       </div>
     </div>
   )

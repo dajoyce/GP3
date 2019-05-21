@@ -2,37 +2,6 @@ import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import { node } from 'prop-types';
 
-//possible props
-//Trip object
-//POI
-//Anything else?
-
-const dummyTrip = {
-  name: "Test Trip",
-  nodes: [
-    {
-      lat: 35.7795897,
-      lng: -78.63817870000003,
-      place: "Raleigh"
-    },
-    {
-      lat: 38.41258,
-      lng: -82.70905,
-      place: "Meads"
-    },
-    {
-      lat: 39.96118,
-      lng: -82.99879,
-      place: "Columbus"
-    },
-    {
-      lat: 42.33143,
-      lng: -83.04575,
-      place: "Detroit"
-    }
-  ],
-}
-
 export default class IvyMap extends Component {
 
   componentDidUpdate() {
@@ -41,20 +10,28 @@ export default class IvyMap extends Component {
 
   componentDidMount() {
     //DEBUGGING DUMMY TRIP REMOVE LATER
-    this.trip = dummyTrip;
-
     this.gMaps = window.google.maps;
 
     const mapNode = ReactDom.findDOMNode(this.refs.map);
 
-    this.map = new this.gMaps.Map(mapNode, { center: this.trip.nodes[0], zoom: 8 });
+    console.log(this.props);
 
-    this.drawTrip(this.trip.nodes);
+    this.map = new this.gMaps.Map(mapNode, { center: this.props.nodes[0], zoom: 8 });
+
+    this.drawTrip(this.props.nodes);
+
+    this.drawPOIs(this.props.POIs);
+  }
+
+  drawPOIs(nodes) {
+    nodes.forEach(node => {
+      this.createMarker(node);
+    });
   }
 
   drawTrip(nodes) {
     nodes.forEach(node => {
-      this.createMarker(node);
+      this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
     });
 
     new this.gMaps.Polyline({
@@ -68,11 +45,12 @@ export default class IvyMap extends Component {
     this.map.setCenter(nodes[nodes.length - 1]);
   }
 
-  createMarker(node) {
+  createMarker(node, symbol = null) {
     return new this.gMaps.Marker({
       position: { lat: node.lat, lng: node.lng },
       map: this.map,
-      title: node.place
+      title: node.place,
+      icon: (symbol) ? null : { path: symbol, scale: 7 }
     });
   }
 
@@ -82,7 +60,7 @@ export default class IvyMap extends Component {
 
   render() {
     return (
-      <div ref="map" {...this.props}>
+      <div ref="map" {...this.props} style={{ height: "100%", width: "100%" }}>
         Loading...
         </div>
     )

@@ -1,7 +1,7 @@
 {
-  "name": "gp3",
+  "name": "Ivy",
   "version": "1.0.0",
-  "description": "Group Project 3",
+  "description": "Ivy",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",

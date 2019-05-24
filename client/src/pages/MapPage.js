@@ -75,20 +75,7 @@ class MapPage extends Component {
   }
 
   componentDidMount() {
-    let params = new URLSearchParams(this.props.location.search);
 
-    const id = params.get('id');
-
-    console.log(id);
-
-    if (id) {
-      API.getTrip(id).then(val => {
-        if (val && val != "") {
-          console.log(val);
-          this.setState({ trip: val.data })
-        }
-      })
-    }
   }
 
   render() {

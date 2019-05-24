@@ -4,25 +4,31 @@ import { node } from 'prop-types';
 
 export default class IvyMap extends Component {
 
+  //Lifecycle functions
   componentDidUpdate() {
 
   }
 
   componentDidMount() {
-    //DEBUGGING DUMMY TRIP REMOVE LATER
     this.gMaps = window.google.maps;
-
     const mapNode = ReactDom.findDOMNode(this.refs.map);
-
-    console.log(this.props);
 
     this.map = new this.gMaps.Map(mapNode, { center: this.props.nodes[0], zoom: 8 });
 
     this.drawTrip(this.props.nodes);
-
     this.drawPOIs(this.props.POIs);
   }
 
+
+  render() {
+    return (
+      <div ref="map" style={{ height: "100%", width: "100%" }}>
+        Loading...
+        </div>
+    )
+  }
+
+  //Drawing functions
   drawPOIs(nodes) {
     nodes.forEach(node => {
       this.createMarker(node);
@@ -36,9 +42,9 @@ export default class IvyMap extends Component {
 
     new this.gMaps.Polyline({
       path: nodes,
-      strokeColor: "#FF0000",
+      strokeColor: "#6c763e",
       strokeOpacity: 1.0,
-      strokeWeight: 2,
+      strokeWeight: 3,
       map: this.map
     });
 
@@ -50,19 +56,7 @@ export default class IvyMap extends Component {
       position: { lat: node.lat, lng: node.lng },
       map: this.map,
       title: node.place,
-      icon: (symbol) ? null : { path: symbol, scale: 7 }
+      icon: (symbol) ? null : { path: symbol, scale: 5 }
     });
-  }
-
-  componentDidUpdate() {
-
-  }
-
-  render() {
-    return (
-      <div ref="map" {...this.props} style={{ height: "100%", width: "100%" }}>
-        Loading...
-        </div>
-    )
   }
 }

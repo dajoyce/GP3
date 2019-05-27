@@ -31,28 +31,28 @@ const developerCards = props => {
     Developers.map(developer => {
       return (
         <Grid item>
-          <Card className={props.classes.card}>
-            <CardActionArea>
-              <CardMedia
-                className={props.classes.media}
-                image={developer.imageURL}
-                title="Developer"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h6" component="h2">
-                  {developer.name}
-                </Typography>
-                <Typography component="p">{developer.about}</Typography>
-              </CardContent>
-            </CardActionArea>
+          <Card className={props.classes.card} style={{ height: "100%", position: "relative", paddingBottom: 10 }}>
+            <CardMedia
+              className={props.classes.media}
+              image={developer.imageURL}
+              title="Developer"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="h2">
+                {developer.name}
+              </Typography>
+              <Typography component="p">{developer.about}</Typography>
+            </CardContent>
             <CardActions>
               <Button
                 className={styles.styleButton}
                 size="small"
-                color="#6c763e"
+                color="primary"
                 href={developer.portfolioURL}
+                target="_blank"
+                style={{ position: "absolute", bottom: 0, textAlign: "center", margin:10, fontSize: 12}}
               >
-                Learn More About {developer.firstName} Here!
+                Learn More About {developer.firstName}
               </Button>
             </CardActions>
           </Card>

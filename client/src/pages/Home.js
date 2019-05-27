@@ -99,7 +99,7 @@ class Home extends Component {
             <Typography variant="h5" gutterBottom style={style.typographyStyle}>
               About Our Developers
             </Typography>
-            <Grid container justify="center" spacing={32}>
+            <Grid container justify="center" spacing={16}>
               <DeveloperCards />
             </Grid>
           </Paper>

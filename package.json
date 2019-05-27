@@ -1,7 +1,7 @@
 {
-  "name": "gp3",
+  "name": "Ivy",
   "version": "1.0.0",
-  "description": "Group Project 3",
+  "description": "Ivy",
   "main": "server.js",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dajoyce/GP3.git"
+    "url": "git+https://github.com/rossgong/ivy.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dajoyce/GP3/issues"
+    "url": "https://github.com/rossgong/ivy/issues"
   },
-  "homepage": "https://github.com/dajoyce/GP3#readme",
+  "homepage": "https://ivy.gongaware.dev",
   "devDependencies": {
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.10"

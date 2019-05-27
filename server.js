@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 require("dotenv").config();
 
 // Connect to the Mongo DB
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ivydb");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/ivydb", { useNewUrlParser: true });
 
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));

@@ -52,11 +52,17 @@ export default class IvyMap extends Component {
   }
 
   createMarker(node, symbol = null) {
-    return new this.gMaps.Marker({
-      position: { lat: node.lat, lng: node.lng },
+    console.log(node);
+    let markerProps = {
+      position: { lat: node.lat || node.latitude, lng: node.lng || node.longitude },
       map: this.map,
-      title: node.place,
-      icon: (symbol) ? null : { path: symbol, scale: 5 }
-    });
+      title: node.place || node.city
+    }
+
+    if (symbol !== null) {
+      markerProps.icon = { path: symbol, scale: 5 };
+    }
+
+    return new this.gMaps.Marker(markerProps);
   }
 }

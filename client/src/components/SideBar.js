@@ -1,53 +1,58 @@
 import React from 'react'
-import { Tab, Tabs, Grid, Typography, TextField } from '@material-ui/core';
+import { Tab, Tabs, Grid, Typography, TextField, AppBar } from '@material-ui/core';
 import PlaceTile from './PlaceTile';
 
-function info(trip, handle) {
+const tabStyle = {
+  minWidth: "33%",
+}
+
+//tab renderers
+function info(nodes, name, handle) {
   return (
     <Grid container direction="column" spacing={16} alignItems="stretch">
       <Grid item xs={12}>
-        < TextField
+        <TextField
           id="standard-name"
           label="Trip Name"
-          value={trip.name}
+          value={name}
           onChange={handle}
           margin="normal"
           name="name"
         />
       </Grid>
       {
-        trip.nodes.map((place, index) => {
+        nodes.map((node, index) => {
           return (<Grid item xs={12} key={index}>
-            < PlaceTile title={place.place} lat={place.lat} lng={place.lng} />
+            <PlaceTile title={node.place} lat={node.lat} lng={node.lng} />
           </Grid>
           )
         })
       }
-    </Grid >
+    </Grid>
 
   )
 }
 
-function POIs(points) {
-  console.log(points);
+function POIs(nodes) {
   return (
     <Grid container direction="column" spacing={16} alignItems="stretch">
-      {points.map((place, index) => {
-        return (<Grid item xs={12} key={index}>
-          < PlaceTile title={place.city} lat={place.latitude} lng={place.longitude} />
-        </Grid>
+      {nodes.map((node, index) => {
+        return (
+          <Grid item xs={12} key={index}>
+            <PlaceTile title={node.city} lat={node.latitude} lng={node.longitude} />
+          </Grid>
         )
       })}
     </Grid>
   )
 }
 
-function notes(handleNotes, notes) {
+function notes(notes, handleNotes) {
   return (
     <Grid container direction="column">
       <Typography variant="h6">
         Trip Notes
-     </Typography>
+      </Typography>
       <TextField
         id="standard-multiline-flexible"
         label="Notes"
@@ -65,16 +70,18 @@ function notes(handleNotes, notes) {
 export default function SideBar(props) {
   return (
     <div>
-      <Tabs value={props.tab} onChange={props.handleChange} variant="fullWidth">
+      <AppBar position="static" color="default">
+        <Tabs value={props.tab} variant="fullWidth" onChange={props.handleTab}>
 
-        <Tab label="Info" />
-        <Tab label="Points of Interest" />
-        <Tab label="Notes" />
-      </Tabs>
+          <Tab label="Info" style={tabStyle} />
+          <Tab label="Points of Interest" style={tabStyle} />
+          <Tab label="Notes" style={tabStyle} />
+        </Tabs>
+      </AppBar>
       <div style={{ padding: 16 }}>
-        {props.tab === 0 && info(props.trip, props.handleNotes)}
-        {props.tab === 1 && POIs(props.points)}
-        {props.tab === 2 && notes(props.handleNotes, props.trip.notes)}
+        {props.tab === 0 && info(props.nodes, props.name, props.handleName)}
+        {props.tab === 1 && POIs(props.POIs)}
+        {props.tab === 2 && notes(props.notes, props.handleNotes)}
       </div>
     </div>
   )

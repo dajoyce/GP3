@@ -35,28 +35,29 @@ const dummyTrip = {
       place: "Detroit"
     }
   ],
+  notes: "-_-"
 }
 
 const dummyPOIs = [
   {
-    lat: 37.7795897,
-    lng: -75.63817870000003,
-    place: "Raleigh"
+    latitude: 37.7795897,
+    longitude: -75.63817870000003,
+    city: "Raleigh"
   },
   {
-    lat: 35.41258,
-    lng: -85.70905,
-    place: "Meads"
+    latitude: 35.41258,
+    longitude: -85.70905,
+    city: "Meads"
   },
   {
-    lat: 34.96118,
-    lng: -83.99879,
-    place: "Columbus"
+    latitude: 34.96118,
+    longitude: -83.99879,
+    city: "Columbus"
   },
   {
-    lat: 46.33143,
-    lng: -86.04575,
-    place: "Detroit"
+    latitude: 46.33143,
+    longitude: -86.04575,
+    city: "Detroit"
   }
 ]
 
@@ -78,13 +79,37 @@ class MapPage extends Component {
 
   }
 
-  render() {
-    console.log(this.state);
+  //handlers
+  handleSideBar = (event, value) => {
+    this.setState({ sideBarTab: value });
+  }
 
+  makeHandler = (variable) => {
+
+    return (event) => {
+      let trip = this.state.trip;
+
+      trip[variable] = event.target.value;
+      this.setState({
+        trip
+      })
+    };
+  }
+
+  render() {
     return (
       <Grid container spacing={0} style={containerStyle}>
         <Grid item xs={3}>
-          <SideBar tab={this.state.sideBarTab} trip={this.state.trip} POIs={this.state.POIs} />
+          <SideBar
+            nodes={this.state.trip.nodes}
+            name={this.state.trip.name}
+            notes={this.state.trip.notes}
+            POIs={this.state.POIs}
+            tab={this.state.sideBarTab}
+            handleTab={this.handleSideBar}
+            handleName={this.makeHandler("name")}
+            handleNotes={this.makeHandler("notes")}
+          />
         </Grid>
         <Grid item xs={9}>
           <IvyMap nodes={this.state.trip.nodes} POIs={this.state.POIs} />

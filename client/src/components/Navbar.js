@@ -1,4 +1,4 @@
-import React, { Wrapper } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,17 +8,16 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { withRouter, Redirect, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import auth from "../firebase/firebase";
 import API from "../utils/API";
 
-// import Avatar from "@material-ui/core/Avatar";
+
 const style = {
   appbarStyle: {
-    background: "#6c763e",
-    position: "unset"
+    background: "#6c763e"
   },
   buttonStyle: {
     background: "#ffffff",
@@ -169,7 +168,6 @@ class PrimarySearchAppBar extends React.Component {
                 onClick={this.login}
                 variant="contained"
                 color="primary"
-                className={this.props.classes.button}
               >
                 Log In
               </Button>
@@ -243,17 +241,17 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar style={{ display: "block" }} className={classes.appBar} style={style.appbarStyle}>
+        <AppBar className={classes.appBar} style={style.appbarStyle} position="relative">
           <Toolbar>
             {this.props.location.pathname === "/"
               ? ""
               : [
-                <Link to={this.props.user ? "/profile" : "/"} >
+                <Link to="/" key="brand">
                   <IconButton color="inherit">
-                    <img src="/favicon.ico" height={40} />
+                    <img src="/favicon.ico" alt="ivy branding" height={40} />
                   </IconButton>
                 </Link>,
-                <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                <Typography key="ivy" className={classes.title} variant="h6" color="inherit" noWrap>
                   ivy
                 </Typography>
               ]}

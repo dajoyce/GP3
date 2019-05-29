@@ -40,7 +40,7 @@ export default class PlaceTile extends Component {
             {this.props.title}
           </Typography>
         </CardContent>
-      </Card >
+      </Card>
     )
   }
 }

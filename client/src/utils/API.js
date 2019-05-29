@@ -25,5 +25,21 @@ export default {
         uid: user.uid
       }
     })
+  },
+  getPOIs(node) {
+    return axios.get(`/api/places/findnodes`, {
+      params: {
+        lat: node.lat,
+        lng: node.lng
+      }
+    }).then((response) => {
+      return response.data.map((node) => {
+        return {
+          lat: node.latitude,
+          lng: node.longitude,
+          place: node.city
+        }
+      })
+    })
   }
 };

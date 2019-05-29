@@ -10,19 +10,6 @@ import PlaceTile from "../components/PlaceTile";
 import { withRouter, Link } from "react-router-dom";
 import Axios from "axios";
 
-const style = {
-  userProfile: {
-    // background: "#6c763e"
-  }
-};
-
-const tripStyle = {
-  trip: {
-    background: "#6c763e",
-    marginBottom: "5%"
-  }
-};
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -56,7 +43,6 @@ class Profile extends Component {
           container
           spacing={24}
           className={classes.userProfile}
-          style={style.userProfile}
         >
           <Grid
             container

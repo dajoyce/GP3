@@ -165,7 +165,6 @@ class Signup extends Component {
                 color="primary"
                 href="/signup"
                 fullWidth={true}
-                className={this.props.classes.button}
               >
                 Sign Up
               </Button>

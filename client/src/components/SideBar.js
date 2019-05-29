@@ -39,7 +39,7 @@ function POIs(nodes) {
       {nodes.map((node, index) => {
         return (
           <Grid item xs={12} key={index}>
-            <PlaceTile title={node.city} lat={node.latitude} lng={node.longitude} />
+            <PlaceTile title={node.place} lat={node.lat} lng={node.lng} />
           </Grid>
         )
       })}
@@ -69,7 +69,9 @@ function notes(notes, handleNotes) {
 
 export default function SideBar(props) {
   return (
-    <div>
+    <div style={{
+      overflowY: "scroll", position: "absolute", top: 0, bottom: 0, width: "100%"
+    }}>
       <AppBar position="static" color="default">
         <Tabs value={props.tab} variant="fullWidth" onChange={props.handleTab}>
 
@@ -83,6 +85,6 @@ export default function SideBar(props) {
         {props.tab === 1 && POIs(props.POIs)}
         {props.tab === 2 && notes(props.notes, props.handleNotes)}
       </div>
-    </div>
+    </div >
   )
 }

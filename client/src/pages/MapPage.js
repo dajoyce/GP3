@@ -40,32 +40,30 @@ const dummyTrip = {
 
 const dummyPOIs = [
   {
-    latitude: 37.7795897,
-    longitude: -75.63817870000003,
-    city: "Raleigh"
+    lat: 37.7795897,
+    lng: -75.63817870000003,
+    place: "Raleigh"
   },
   {
-    latitude: 35.41258,
-    longitude: -85.70905,
-    city: "Meads"
+    lat: 35.41258,
+    lng: -85.70905,
+    place: "Meads"
   },
   {
-    latitude: 34.96118,
-    longitude: -83.99879,
-    city: "Columbus"
+    lat: 34.96118,
+    lng: -83.99879,
+    place: "Columbus"
   },
   {
-    latitude: 46.33143,
-    longitude: -86.04575,
-    city: "Detroit"
+    lat: 46.33143,
+    lng: -86.04575,
+    place: "Detroit"
   }
 ]
 
 const containerStyle = {
-  width: "100%",
-  position: "absolute",
-  top: 64,
-  bottom: 0,
+  minHeight: "100%",
+  width: "100%"
 }
 
 class MapPage extends Component {
@@ -77,6 +75,14 @@ class MapPage extends Component {
 
   componentDidMount() {
 
+    this.refreshPOIs();
+  }
+
+  refreshPOIs() {
+    API.getPOIs(this.state.trip.nodes[this.state.trip.nodes.length - 1]).then((response) => {
+      console.log(this.state);
+      this.setState({ POIs: response })
+    });;
   }
 
   //handlers
@@ -99,7 +105,7 @@ class MapPage extends Component {
   render() {
     return (
       <Grid container spacing={0} style={containerStyle}>
-        <Grid item xs={3}>
+        <Grid item xs={4} md={3} style={{ position: "relative" }}>
           <SideBar
             nodes={this.state.trip.nodes}
             name={this.state.trip.name}
@@ -111,7 +117,7 @@ class MapPage extends Component {
             handleNotes={this.makeHandler("notes")}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={8} md={9} style={{ position: "relative" }}>
           <IvyMap nodes={this.state.trip.nodes} POIs={this.state.POIs} />
         </Grid>
       </Grid>

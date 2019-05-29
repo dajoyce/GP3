@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-import { node } from 'prop-types';
 
 export default class IvyMap extends Component {
 
   //Lifecycle functions
-  componentDidUpdate() {
-
+  componentDidUpdate(prevProps) {
+    if (prevProps.POIs !== this.props.POIs) {
+      this.drawPOIs(this.props.POIs);
+    }
   }
 
   componentDidMount() {
     this.gMaps = window.google.maps;
     const mapNode = ReactDom.findDOMNode(this.refs.map);
 
-    this.map = new this.gMaps.Map(mapNode, { center: this.props.nodes[0], zoom: 8 });
+    this.map = new this.gMaps.Map(mapNode, { center: this.props.nodes[0], zoom: 8, disableDefaultUI: true });
 
     this.drawTrip(this.props.nodes);
     this.drawPOIs(this.props.POIs);
@@ -22,7 +23,7 @@ export default class IvyMap extends Component {
 
   render() {
     return (
-      <div ref="map" style={{ height: "100%", width: "100%" }}>
+      <div ref="map" style={{ height: 'calc(100vh - 64px)' }} id="743987">
         Loading...
         </div>
     )
@@ -30,8 +31,16 @@ export default class IvyMap extends Component {
 
   //Drawing functions
   drawPOIs(nodes) {
-    nodes.forEach(node => {
-      this.createMarker(node);
+    if (this.POIMarkers) {
+      this.POIMarkers.forEach(marker => {
+        marker.setMap(null);
+      });
+
+      this.POIMarkers = null;
+    }
+
+    this.POIMarkers = nodes.map(node => {
+      return this.createMarker(node);
     });
   }
 
@@ -48,15 +57,17 @@ export default class IvyMap extends Component {
       map: this.map
     });
 
+    console.log(nodes);
+
     this.map.setCenter(nodes[nodes.length - 1]);
   }
 
   createMarker(node, symbol = null) {
     console.log(node);
     let markerProps = {
-      position: { lat: node.lat || node.latitude, lng: node.lng || node.longitude },
+      position: { lat: node.lat, lng: node.lng },
       map: this.map,
-      title: node.place || node.city
+      title: node.place
     }
 
     if (symbol !== null) {

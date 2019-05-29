@@ -6,7 +6,6 @@ import Home from "./pages/Home";
 import Profile from "./pages/Profile";
 import Signup from "./pages/Signup";
 import MapPage from "./pages/MapPage";
-import { isNullOrUndefined } from "util";
 
 class App extends Component {
   state = {

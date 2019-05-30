@@ -5,9 +5,6 @@ export default class IvyMap extends Component {
 
   //Lifecycle functions
   componentDidUpdate(prevProps) {
-    console.log(this.props);
-    console.log(prevProps)
-
     if (prevProps.nodes.length === 0 && this.props.nodes.length > 0) {
       this.drawTrip(this.props.nodes);
     } else if (this.polyline) {
@@ -95,7 +92,6 @@ export default class IvyMap extends Component {
   }
 
   createMarker(node, symbol = null) {
-    console.log(node);
     let markerProps = {
       position: { lat: node.lat, lng: node.lng },
       map: this.map,

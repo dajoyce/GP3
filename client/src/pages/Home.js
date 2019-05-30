@@ -44,7 +44,6 @@ const styles = theme => ({
 
 class Home extends Component {
   render() {
-    console.log(this.props);
 
     return (
       <Grid className={this.props.classes.root} container justify="center" style={{ padding: 0 }}>

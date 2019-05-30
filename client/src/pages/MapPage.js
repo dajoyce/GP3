@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom'
 import { Grid, Dialog, TextField, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
 import qs from "query-string";
@@ -14,7 +13,7 @@ import SideBar from '../components/SideBar';
 //Anything else?
 
 const dummyTrip = {
-  name: "My roadtrip",
+  name: "My Road Trip",
   nodes: [
   ],
   notes: "Notes"
@@ -35,7 +34,7 @@ class MapPage extends Component {
 
   componentDidMount() {
     let id = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id
-
+    API.getUser(this.props.user.uid).then(response => this.userID = response.data._id)
     if (id) {
       API.getTrip(id).then(response => {
         this.setState({ trip: response.data });
@@ -71,17 +70,36 @@ class MapPage extends Component {
     }
   }
 
+  saveTrip() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+
+    let trip = this.state.trip;
+    trip.owner = this.userID;
+
+    this.timeout = setTimeout(() => {
+      API.saveTrip(trip).then((response) => {
+        if (!(this.state.trip._id)) {
+          let trip = this.state.trip;
+          trip._id = response.data._id;
+          this.setState({ trip });
+        }
+      });
+    }, 2000)
+  }
+
   //handlers
   handleSideBar = (event, value) => {
     this.setState({ sideBarTab: value });
   }
 
   POIHandler = (node) => {
-    console.log(node);
-
     let trip = this.state.trip;
 
     trip.nodes.push(node);
+
+    this.saveTrip();
 
     this.setState({ trip });
     this.refreshPOIs(node);
@@ -94,14 +112,15 @@ class MapPage extends Component {
       trip[variable] = event.target.value;
       this.setState({
         trip
-      })
+      });
+      this.saveTrip();
     };
   }
 
   render() {
     return (
       <Grid container spacing={0} style={containerStyle}>
-        <Grid item xs={4} md={3} style={{ position: "relative" }}>
+        <Grid item xs={4} md={3} lg={2} style={{ position: "relative" }}>
           {(this.state.trip) ? <SideBar
             nodes={this.state.trip.nodes}
             name={this.state.trip.name}
@@ -114,7 +133,7 @@ class MapPage extends Component {
           /> : ""}
 
         </Grid>
-        <Grid item xs={8} md={9} style={{ position: "relative" }}>
+        <Grid item xs={8} md={9} lg={10} style={{ position: "relative" }}>
           <IvyMap
             nodes={(this.state.trip) ? this.state.trip.nodes : []}
             POIs={this.state.POIs}

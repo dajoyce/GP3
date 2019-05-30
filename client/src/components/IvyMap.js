@@ -29,6 +29,8 @@ export default class IvyMap extends Component {
       this.drawPOIs(this.props.POIs);
     }
 
+    this.lines = [];
+
     this.directions = new this.gMaps.DirectionsService();
   }
 
@@ -83,10 +85,6 @@ export default class IvyMap extends Component {
   }
 
   drawDirections(nodes) {
-    if (this.line) {
-      this.line.setMap(null);
-      this.line = null;
-    }
 
     let request = {
       origin: new this.gMaps.LatLng(nodes[0]),
@@ -99,15 +97,13 @@ export default class IvyMap extends Component {
 
     this.directions.route(request, (res, stat) => {
       if (stat == 'OK') {
-        this.line = new this.gMaps.Polyline({
+        this.lines.push(new this.gMaps.Polyline({
           path: res.routes[0].overview_path,
           strokeColor: "#6c763e",
           strokeOpacity: 1.0,
           strokeWeight: 3,
           map: this.map
-        });
-
-        console.log(this.line);
+        }));
       }
     });
 
@@ -115,7 +111,7 @@ export default class IvyMap extends Component {
 
   extendTrip(node) {
     this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
-    this.drawDirections();
+    this.drawDirections([this.props.nodes[this.props.nodes.length - 2], node]);
   }
 
   createMarker(node, symbol = null) {

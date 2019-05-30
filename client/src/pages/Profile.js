@@ -13,7 +13,7 @@ import Axios from "axios";
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    marginTop: "10%"
+    marginTop: "5%"
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -68,6 +68,11 @@ class Profile extends Component {
             sm={9}
             spacing={16}
           >
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <Typography variant="h2">
+                Your trips
+              </Typography>
+            </Grid>
             {
               (this.state.trips.length === 0) ?
                 (<Link to="/map" ><Button color="secondary">Create your first Trip</Button></Link>)

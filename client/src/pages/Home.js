@@ -46,7 +46,7 @@ class Home extends Component {
   render() {
 
     return (
-      <Grid className={this.props.classes.root} container justify="center" style={{ padding: 0 }}>
+      <Grid container justify="center" style={{ padding: 0 }}>
         <Grid item xs={12}>
           <div className={this.props.classes.body}>
             <img

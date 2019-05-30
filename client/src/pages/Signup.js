@@ -9,48 +9,22 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
-const style = {
-  buttonStyle: {
-    background: "#6c763e"
-  },
-  textFieldStyle: {
-    fullWidth: true
-  }
-};
-
-const styles = theme => ({
-  container: {
+const styles = {
+  header: {
+    backgroundImage: "url('/images/highway-background.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "cover",
     display: "flex",
-    flexWrap: "wrap",
-    marginTop: "5%",
-    flexDirection: "column"
+    justifyContent: "center",
+    width: "100%",
+    height: 450
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-  dense: {
-    marginTop: 16
-  },
-  menu: {
-    width: 200
-  },
-  root: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    flexGrow: 1,
-    marginTop: "10%"
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: "center",
-    color: theme.palette.text.secondary
-  },
-  input: {
-    color: "#6c763e"
+  brandImage: {
+    height: 250,
+    marginTop: 85
   }
-});
+}
 
 class Signup extends Component {
   state = {
@@ -92,105 +66,93 @@ class Signup extends Component {
   };
 
   render() {
-    const { classes } = this.props;
 
     return (
-      <Paper className={classes.paper}>
-        <Grid
-          container
-          spacing={24}
-          className={this.props.classes.root}
-          justify="center"
-          alignItems="center"
-        >
-          <Grid item xs={4}>
-            <Typography variant="h6" gutterBottom>
-              Sign Up
+
+      <Grid
+        container
+        justify="center"
+        alignItems="center"
+        spacing={24}
+      >
+        <Grid item xs={12}>
+          <div style={styles.header}>
+            <img
+              src="/images/circle-logo-ivy-trans.png"
+              alt="Highway Background"
+              style={styles.brandImage}
+            />
+          </div>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography variant="h6" gutterBottom>
+            Sign Up
             </Typography>
-            <form className={classes.container} noValidate autoComplete="off">
-              <TextField
-                id="outlined-name"
-                label="Name"
-                className={classes.textField}
-                style={style.textFieldStyle}
-                value={this.state.name}
-                onChange={this.handleChange}
-                name="name"
-                margin="normal"
-                variant="outlined"
-                InputProps={{
-                  className: classes.input
-                }}
-              />
+          <form noValidate autoComplete="off">
+            <TextField
+              id="outlined-name"
+              label="Name"
+              value={this.state.name}
+              onChange={this.handleChange}
+              name="name"
+              margin="normal"
+              variant="outlined"
+              fullWidth={true}
+            />
 
-              <TextField
-                id="outlined-email-input"
-                label="Email"
-                className={classes.textField}
-                style={style.textFieldStyle}
-                value={this.state.email}
-                onChange={this.handleChange}
-                type="email"
-                name="email"
-                autoComplete="email"
-                margin="normal"
-                variant="outlined"
-                InputProps={{
-                  className: classes.input
-                }}
-              />
+            <TextField
+              id="outlined-email-input"
+              label="Email"
+              value={this.state.email}
+              onChange={this.handleChange}
+              type="email"
+              name="email"
+              autoComplete="email"
+              margin="normal"
+              variant="outlined"
+              fullWidth={true}
+            />
 
-              <TextField
-                id="outlined-password-input"
-                label="Password"
-                className={classes.textField}
-                style={style.textFieldStyle}
-                value={this.state.password}
-                onChange={this.handleChange}
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-                variant="outlined"
-                InputProps={{
-                  className: classes.input
-                }}
-              />
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              value={this.state.password}
+              onChange={this.handleChange}
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              margin="normal"
+              variant="outlined"
+              fullWidth={true}
+            />
 
-              <Button
-                className={classes.button}
-                style={style.buttonStyle}
-                onClick={this.createAccount}
-                variant="contained"
-                color="primary"
-                href="/signup"
-                fullWidth={true}
-              >
-                Sign Up
+            <Button
+              onClick={this.createAccount}
+              variant="contained"
+              color="primary"
+              href="/signup"
+              fullWidth={true}
+            >
+              Sign Up
               </Button>
 
-              {this.state.errors && <p>{this.state.errors}</p>}
-            </form>
-          </Grid>
-
-          <Grid item xs={4} alignItems="stretch">
-            <Typography variant="h6" gutterBottom>
-              What We Do With Your Info
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              All of your information is stored securely in our database and is NEVER shared with
-              anyone. We take your privacy seriously! All information provided is used to make your
-              experience with Ivy a pleasant one. So sit back and enjoy the ride.
-            </Typography>
-          </Grid>
+            {this.state.errors && <p>{this.state.errors}</p>}
+          </form>
         </Grid>
-      </Paper>
+
+        <Grid item xs={3} alignItems="stretch">
+          <Typography variant="h6" gutterBottom>
+            What We Do With Your Info
+            </Typography>
+          <Typography variant="body1" gutterBottom>
+            All of your information is stored securely in our database and is NEVER shared with
+            anyone. We take your privacy seriously! All information provided is used to make your
+            experience with Ivy a pleasant one. So sit back and enjoy the ride.
+            </Typography>
+        </Grid>
+      </Grid>
     );
   }
 }
 
-Signup.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-
-export default withStyles(styles)(Signup);
+export default Signup;

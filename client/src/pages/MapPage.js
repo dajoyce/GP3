@@ -45,6 +45,12 @@ class MapPage extends Component {
     }
   }
 
+  componentWillUnmount() {
+    if (this.state.trip) {
+      this.saveTrip(0);
+    }
+  }
+
   refreshPOIs(node = this.state.trip.nodes[this.state.trip.nodes.length - 1]) {
     API.getPOIs(node).then((response) => {
       console.log(this.state);
@@ -70,7 +76,7 @@ class MapPage extends Component {
     }
   }
 
-  saveTrip() {
+  saveTrip(timeout = 2000) {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
@@ -85,8 +91,9 @@ class MapPage extends Component {
           trip._id = response.data._id;
           this.setState({ trip });
         }
+        console.log("saved");
       });
-    }, 2000)
+    }, timeout)
   }
 
   //handlers
@@ -147,7 +154,7 @@ class MapPage extends Component {
           <DialogTitle id="form-dialog-title">Start your trip!</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Where would you like to start your trip?
+              Where would you like to begin?
             </DialogContentText>
             <TextField
               autoFocus

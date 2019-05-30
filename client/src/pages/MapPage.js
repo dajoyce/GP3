@@ -74,12 +74,11 @@ class MapPage extends Component {
   }
 
   componentDidMount() {
-
     this.refreshPOIs();
   }
 
-  refreshPOIs() {
-    API.getPOIs(this.state.trip.nodes[this.state.trip.nodes.length - 1]).then((response) => {
+  refreshPOIs(node = this.state.trip.nodes[this.state.trip.nodes.length - 1]) {
+    API.getPOIs(node).then((response) => {
       console.log(this.state);
       this.setState({ POIs: response })
     });;
@@ -90,8 +89,18 @@ class MapPage extends Component {
     this.setState({ sideBarTab: value });
   }
 
-  makeHandler = (variable) => {
+  POIHandler = (node) => {
+    console.log(node);
 
+    let trip = this.state.trip;
+
+    trip.nodes.push(node);
+
+    this.setState({ trip });
+    this.refreshPOIs(node);
+  }
+
+  makeHandler = (variable) => {
     return (event) => {
       let trip = this.state.trip;
 
@@ -118,7 +127,11 @@ class MapPage extends Component {
           />
         </Grid>
         <Grid item xs={8} md={9} style={{ position: "relative" }}>
-          <IvyMap nodes={this.state.trip.nodes} POIs={this.state.POIs} />
+          <IvyMap
+            nodes={this.state.trip.nodes}
+            POIs={this.state.POIs}
+            POIHandle={this.POIHandler}
+          />
         </Grid>
       </Grid>
     )

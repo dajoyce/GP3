@@ -5,8 +5,14 @@ export default class IvyMap extends Component {
 
   //Lifecycle functions
   componentDidUpdate(prevProps) {
+    console.log(this.props);
+    console.log(prevProps)
     if (prevProps.POIs !== this.props.POIs) {
       this.drawPOIs(this.props.POIs);
+    }
+
+    if (this.polyline.getPath().length < this.props.nodes.length) {
+      this.extendTrip(this.props.nodes[this.props.nodes.length - 1]);
     }
   }
 
@@ -39,9 +45,21 @@ export default class IvyMap extends Component {
       this.POIMarkers = null;
     }
 
-    this.POIMarkers = nodes.map(node => {
-      return this.createMarker(node);
+    let bounds = new this.gMaps.LatLngBounds();
+
+    this.POIMarkers = nodes.map((node, ind) => {
+      let marker = this.createMarker(node);
+
+      marker.setLabel('' + ind);
+      marker.addListener('click', () => this.props.POIHandle(node));
+
+      bounds.extend(node);
+
+      return marker;
     });
+
+    this.map.fitBounds(bounds, 10);
+
   }
 
   drawTrip(nodes) {
@@ -49,7 +67,7 @@ export default class IvyMap extends Component {
       this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
     });
 
-    new this.gMaps.Polyline({
+    this.polyline = new this.gMaps.Polyline({
       path: nodes,
       strokeColor: "#6c763e",
       strokeOpacity: 1.0,
@@ -62,12 +80,17 @@ export default class IvyMap extends Component {
     this.map.setCenter(nodes[nodes.length - 1]);
   }
 
+  extendTrip(node) {
+    this.polyline.getPath().push(new this.gMaps.LatLng(node));
+  }
+
   createMarker(node, symbol = null) {
     console.log(node);
     let markerProps = {
       position: { lat: node.lat, lng: node.lng },
       map: this.map,
-      title: node.place
+      title: node.place,
+      animation: this.gMaps.Animation.DROP
     }
 
     if (symbol !== null) {

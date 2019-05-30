@@ -66,7 +66,7 @@ export default class IvyMap extends Component {
       return marker;
     });
 
-    this.map.fitBounds(bounds, 10);
+    this.map.panToBounds(bounds, 10);
 
   }
 

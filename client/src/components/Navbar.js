@@ -22,8 +22,8 @@ const style = {
   buttonStyle: {
     background: "#ffffff",
     color: "#6c763e",
-    height: 30,
-    marginTop: 18
+    height: 40,
+    margin: "auto 5px"
   }
 };
 
@@ -52,13 +52,14 @@ const styles = theme => ({
       display: "none"
     }
   },
-  textField: {},
+  textField: { margin: 0 },
   input: {
     color: "#6c763e",
     background: "white",
-    height: "40px",
-    marginRight: "10%",
-    paddingBottom: "5px"
+    margin: "auto 5px",
+    height: 48,
+    overflow: "hidden",
+    borderRadius: 5
   }
 });
 
@@ -106,7 +107,6 @@ class PrimarySearchAppBar extends React.Component {
             });
           }
         });
-        this.props.history.push("/map");
       })
       .catch(function (error) {
         console.log(error);
@@ -158,6 +158,7 @@ class PrimarySearchAppBar extends React.Component {
                 margin="normal"
                 variant="outlined"
                 onChange={this.handleChange("password")}
+                onSubmit={this.login}
                 InputProps={{
                   className: classes.input
                 }}
@@ -170,6 +171,17 @@ class PrimarySearchAppBar extends React.Component {
                 color="primary"
               >
                 Log In
+              </Button>
+
+              <Button
+                className={classes.button}
+                style={style.buttonStyle}
+                variant="contained"
+                color="primary"
+              >
+                <Link to='/signup' style={{ textDecoration: "none", color: "#6c763e" }}>
+                  Signup
+                </Link>
               </Button>
             </>
           );
@@ -216,7 +228,10 @@ class PrimarySearchAppBar extends React.Component {
         >
           Map
         </MenuItem>
-        <MenuItem href="/" onClick={this.logout}>
+        <MenuItem href="/" onClick={() => {
+          this.setState({ anchorEl: null })
+          this.logout();
+        }}>
           Logout
         </MenuItem>
       </Menu>

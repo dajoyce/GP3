@@ -46,7 +46,7 @@ class Home extends Component {
   render() {
 
     return (
-      <Grid className={this.props.classes.root} container justify="center" style={{ padding: 0 }}>
+      <Grid container justify="center" style={{ padding: 0 }}>
         <Grid item xs={12}>
           <div className={this.props.classes.body}>
             <img
@@ -76,8 +76,7 @@ class Home extends Component {
                 <br />
                 we believe in detours, not destinations. we know ivy will make you a believer too.
                 <br />
-                <Button
-                  // className={classes.button}
+                {(this.props.user) ? null : <Button
                   style={style.buttonStyle}
                   variant="contained"
                   color="primary"
@@ -86,7 +85,8 @@ class Home extends Component {
                   className={this.props.classes.button}
                 >
                   Sign Up
-                </Button>
+                </Button>}
+                
               </Typography>
             </Grid>
           </Paper>

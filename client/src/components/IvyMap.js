@@ -5,16 +5,12 @@ export default class IvyMap extends Component {
 
   //Lifecycle functions
   componentDidUpdate(prevProps) {
-    if (prevProps.nodes.length === 0 && this.props.nodes.length > 0) {
+    if (this.props.nodes.length > 0) {
       this.drawTrip(this.props.nodes);
-    } else if (this.polyline) {
-      if (prevProps.POIs !== this.props.POIs) {
-        this.drawPOIs(this.props.POIs);
-      }
+    }
 
-      if (this.polyline.getPath().length < this.props.nodes.length) {
-        this.extendTrip(this.props.nodes[this.props.nodes.length - 1]);
-      }
+    if (this.props.POIs.length > 0) {
+      this.drawPOIs(this.props.POIs)
     }
   }
 
@@ -32,10 +28,13 @@ export default class IvyMap extends Component {
       this.drawTrip(this.props.nodes);
       this.drawPOIs(this.props.POIs);
     }
+
+    this.lines = [];
+
+    this.directions = new this.gMaps.DirectionsService();
   }
 
   componentWillUnmount() {
-    this.polyline = null;
   }
 
 
@@ -49,6 +48,7 @@ export default class IvyMap extends Component {
 
   //Drawing functions
   drawPOIs(nodes) {
+    console.log('here');
     if (this.POIMarkers) {
       this.POIMarkers.forEach(marker => {
         marker.setMap(null);
@@ -79,20 +79,39 @@ export default class IvyMap extends Component {
       this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
     });
 
-    this.polyline = new this.gMaps.Polyline({
-      path: nodes,
-      strokeColor: "#6c763e",
-      strokeOpacity: 1.0,
-      strokeWeight: 3,
-      map: this.map
-    });
+    this.drawDirections(nodes);
 
     this.map.setCenter(nodes[nodes.length - 1]);
   }
 
+  drawDirections(nodes) {
+
+    let request = {
+      origin: new this.gMaps.LatLng(nodes[0]),
+      destination: new this.gMaps.LatLng(nodes[nodes.length - 1]),
+      waypoints: nodes.slice(1, nodes.length).map((val) => {
+        return { location: new this.gMaps.LatLng(val), stopover: false };
+      }),
+      travelMode: 'DRIVING'
+    }
+
+    this.directions.route(request, (res, stat) => {
+      if (stat == 'OK') {
+        this.lines.push(new this.gMaps.Polyline({
+          path: res.routes[0].overview_path,
+          strokeColor: "#6c763e",
+          strokeOpacity: 1.0,
+          strokeWeight: 3,
+          map: this.map
+        }));
+      }
+    });
+
+  }
+
   extendTrip(node) {
-    this.polyline.getPath().push(new this.gMaps.LatLng(node));
     this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
+    this.drawDirections([this.props.nodes[this.props.nodes.length - 2], node]);
   }
 
   createMarker(node, symbol = null) {
@@ -107,6 +126,8 @@ export default class IvyMap extends Component {
       markerProps.icon = { path: symbol, scale: 5 };
     }
 
-    return new this.gMaps.Marker(markerProps);
+    let marker = new this.gMaps.Marker(markerProps);
+
+    return marker;
   }
 }

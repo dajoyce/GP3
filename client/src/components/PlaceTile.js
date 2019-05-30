@@ -39,6 +39,9 @@ export default class PlaceTile extends Component {
           <Typography variant="h6">
             {this.props.title}
           </Typography>
+          <Typography>
+            {this.props.distance}
+          </Typography>
         </CardContent>
       </Card>
     )

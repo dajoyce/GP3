@@ -41,8 +41,12 @@ class App extends Component {
       <div>
         <Navbar user={this.state.user} />
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/" render={() => {
+            return <Home user={this.state.user} />;
+          }} />
+          <Route exact path="/signup" render={() => {
+            return <Signup user={this.state.user} />;
+          }} />
           <Route exact path="/profile" render={() => this.renderIfAuth(Profile)} />
           <Route exact path="/map" render={() => this.renderIfAuth(MapPage)} />
         </Switch>

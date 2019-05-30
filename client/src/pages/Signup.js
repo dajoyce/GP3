@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import { withRouter } from 'react-router-dom';
 import auth from "../firebase/firebase";
-import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import API from "../utils/API";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 
 const styles = {
@@ -33,6 +31,12 @@ class Signup extends Component {
     password: "",
     errors: null
   };
+
+  componentDidUpdate() {
+    if (this.props.user) {
+      this.props.history.push("/");
+    }
+  }
 
   handleChange = i => {
     const name = i.target.name;
@@ -155,4 +159,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);

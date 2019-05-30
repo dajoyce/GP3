@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const tripScema = new Schema({
+const tripSchema = new Schema({
   nodes: [{
     place: String,
     lat: Number,
@@ -16,6 +16,6 @@ const tripScema = new Schema({
   }
 });
 
-const Trip = mongoose.model("Trip", tripScema);
+const Trip = mongoose.model("Trip", tripSchema);
 
 module.exports = Trip;

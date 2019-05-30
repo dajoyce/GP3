@@ -12,6 +12,9 @@ export default {
   saveUser: function (userData) {
     return axios.post("/api/user", userData);
   },
+  saveTrip: function (trip) {
+    return axios.put('/api/places/savetrip', trip);
+  },
   getTrip(id) {
     return axios.get("/api/places/findTrip", {
       params: {
@@ -24,6 +27,22 @@ export default {
       params: {
         uid: user.uid
       }
+    })
+  },
+  getPOIs(node) {
+    return axios.get(`/api/places/findnodes`, {
+      params: {
+        lat: node.lat,
+        lng: node.lng
+      }
+    }).then((response) => {
+      return response.data.map((node) => {
+        return {
+          lat: node.latitude,
+          lng: node.longitude,
+          place: node.city
+        }
+      })
     })
   }
 };

@@ -1,4 +1,4 @@
-import React, { Wrapper } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,23 +8,22 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { withStyles } from "@material-ui/core/styles";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { withRouter, Redirect, Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import auth from "../firebase/firebase";
 import API from "../utils/API";
 
-// import Avatar from "@material-ui/core/Avatar";
+
 const style = {
   appbarStyle: {
-    background: "#6c763e",
-    position: "unset"
+    background: "#6c763e"
   },
   buttonStyle: {
     background: "#ffffff",
     color: "#6c763e",
-    height: 30,
-    marginTop: 18
+    height: 40,
+    margin: "auto 5px"
   }
 };
 
@@ -53,13 +52,14 @@ const styles = theme => ({
       display: "none"
     }
   },
-  textField: {},
+  textField: { margin: 0 },
   input: {
     color: "#6c763e",
     background: "white",
-    height: "40px",
-    marginRight: "10%",
-    paddingBottom: "5px"
+    margin: "auto 5px",
+    height: 48,
+    overflow: "hidden",
+    borderRadius: 5
   }
 });
 
@@ -107,7 +107,6 @@ class PrimarySearchAppBar extends React.Component {
             });
           }
         });
-        this.props.history.push("/map");
       })
       .catch(function (error) {
         console.log(error);
@@ -159,6 +158,7 @@ class PrimarySearchAppBar extends React.Component {
                 margin="normal"
                 variant="outlined"
                 onChange={this.handleChange("password")}
+                onSubmit={this.login}
                 InputProps={{
                   className: classes.input
                 }}
@@ -169,9 +169,19 @@ class PrimarySearchAppBar extends React.Component {
                 onClick={this.login}
                 variant="contained"
                 color="primary"
-                className={this.props.classes.button}
               >
                 Log In
+              </Button>
+
+              <Button
+                className={classes.button}
+                style={style.buttonStyle}
+                variant="contained"
+                color="primary"
+              >
+                <Link to='/signup' style={{ textDecoration: "none", color: "#6c763e" }}>
+                  Signup
+                </Link>
               </Button>
             </>
           );
@@ -218,7 +228,10 @@ class PrimarySearchAppBar extends React.Component {
         >
           Map
         </MenuItem>
-        <MenuItem href="/" onClick={this.logout}>
+        <MenuItem href="/" onClick={() => {
+          this.setState({ anchorEl: null })
+          this.logout();
+        }}>
           Logout
         </MenuItem>
       </Menu>
@@ -243,17 +256,17 @@ class PrimarySearchAppBar extends React.Component {
 
     return (
       <div className={classes.root}>
-        <AppBar style={{ display: "block" }} className={classes.appBar} style={style.appbarStyle}>
+        <AppBar className={classes.appBar} style={style.appbarStyle} position="relative">
           <Toolbar>
             {this.props.location.pathname === "/"
               ? ""
               : [
-                <Link to={this.props.user ? "/profile" : "/"} >
+                <Link to="/" key="brand">
                   <IconButton color="inherit">
-                    <img src="/favicon.ico" height={40} />
+                    <img src="/favicon.ico" alt="ivy branding" height={40} />
                   </IconButton>
                 </Link>,
-                <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                <Typography key="ivy" className={classes.title} variant="h6" color="inherit" noWrap>
                   ivy
                 </Typography>
               ]}

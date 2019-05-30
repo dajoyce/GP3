@@ -34,6 +34,10 @@ export default class IvyMap extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.polyline = null;
+  }
+
 
   render() {
     return (

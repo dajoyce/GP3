@@ -12,13 +12,6 @@ import SideBar from '../components/SideBar';
 //POI
 //Anything else?
 
-const dummyTrip = {
-  name: "My Road Trip",
-  nodes: [
-  ],
-  notes: "Notes"
-}
-
 const containerStyle = {
   minHeight: "100%",
   width: "100%"
@@ -34,6 +27,7 @@ class MapPage extends Component {
 
   componentDidMount() {
     let id = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id
+    console.log(id);
     API.getUser(this.props.user.uid).then(response => this.userID = response.data._id)
     if (id) {
       API.getTrip(id).then(response => {
@@ -67,8 +61,13 @@ class MapPage extends Component {
         let location = auto.getPlace().geometry.location;
         let node = { lat: location.lat(), lng: location.lng(), place: auto.getPlace().name }
 
-        let trip = dummyTrip;
-        trip.nodes.push(node);
+        let trip = {
+          name: "My Road Trip",
+          nodes: [
+            node
+          ],
+          notes: "Notes"
+        };
 
         this.setState({ trip, open: false });
         this.refreshPOIs(node);

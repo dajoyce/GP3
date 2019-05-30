@@ -7,12 +7,17 @@ export default class IvyMap extends Component {
   componentDidUpdate(prevProps) {
     console.log(this.props);
     console.log(prevProps)
-    if (prevProps.POIs !== this.props.POIs) {
-      this.drawPOIs(this.props.POIs);
-    }
 
-    if (this.polyline.getPath().length < this.props.nodes.length) {
-      this.extendTrip(this.props.nodes[this.props.nodes.length - 1]);
+    if (prevProps.nodes.length === 0 && this.props.nodes.length > 0) {
+      this.drawTrip(this.props.nodes);
+    } else if (this.polyline) {
+      if (prevProps.POIs !== this.props.POIs) {
+        this.drawPOIs(this.props.POIs);
+      }
+
+      if (this.polyline.getPath().length < this.props.nodes.length) {
+        this.extendTrip(this.props.nodes[this.props.nodes.length - 1]);
+      }
     }
   }
 
@@ -20,10 +25,16 @@ export default class IvyMap extends Component {
     this.gMaps = window.google.maps;
     const mapNode = ReactDom.findDOMNode(this.refs.map);
 
-    this.map = new this.gMaps.Map(mapNode, { center: this.props.nodes[0], zoom: 8, disableDefaultUI: true });
+    this.map = new this.gMaps.Map(mapNode, {
+      center: { lat: 35.78, lng: -78.63 },
+      zoom: 8,
+      disableDefaultUI: true
+    });
 
-    this.drawTrip(this.props.nodes);
-    this.drawPOIs(this.props.POIs);
+    if (!(this.props.nodes)) {
+      this.drawTrip(this.props.nodes);
+      this.drawPOIs(this.props.POIs);
+    }
   }
 
 
@@ -75,13 +86,12 @@ export default class IvyMap extends Component {
       map: this.map
     });
 
-    console.log(nodes);
-
     this.map.setCenter(nodes[nodes.length - 1]);
   }
 
   extendTrip(node) {
     this.polyline.getPath().push(new this.gMaps.LatLng(node));
+    this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
   }
 
   createMarker(node, symbol = null) {

@@ -28,7 +28,6 @@ class App extends Component {
   }
 
   renderIfAuth(Component) {
-    console.log(auth.currentUser)
     if (auth.currentUser) {
       return <Component user={this.state.user} />
     } else {

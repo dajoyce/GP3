@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom'
-import { Grid } from '@material-ui/core';
+import { Grid, Dialog, TextField, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core';
+import qs from "query-string";
 
 import IvyMap from "../components/IvyMap";
 import API from '../utils/API';
@@ -12,54 +14,11 @@ import SideBar from '../components/SideBar';
 //Anything else?
 
 const dummyTrip = {
-  name: "Test Trip",
+  name: "My roadtrip",
   nodes: [
-    {
-      lat: 35.7795897,
-      lng: -78.63817870000003,
-      place: "Raleigh"
-    },
-    {
-      lat: 38.41258,
-      lng: -82.70905,
-      place: "Meads"
-    },
-    {
-      lat: 39.96118,
-      lng: -82.99879,
-      place: "Columbus"
-    },
-    {
-      lat: 42.33143,
-      lng: -83.04575,
-      place: "Detroit"
-    }
   ],
-  notes: "-_-"
+  notes: "Notes"
 }
-
-const dummyPOIs = [
-  {
-    lat: 37.7795897,
-    lng: -75.63817870000003,
-    place: "Raleigh"
-  },
-  {
-    lat: 35.41258,
-    lng: -85.70905,
-    place: "Meads"
-  },
-  {
-    lat: 34.96118,
-    lng: -83.99879,
-    place: "Columbus"
-  },
-  {
-    lat: 46.33143,
-    lng: -86.04575,
-    place: "Detroit"
-  }
-]
 
 const containerStyle = {
   minHeight: "100%",
@@ -68,13 +27,23 @@ const containerStyle = {
 
 class MapPage extends Component {
   state = {
-    trip: dummyTrip,
-    POIs: dummyPOIs,
-    sideBarTab: 0
+    trip: null,
+    POIs: [],
+    sideBarTab: 0,
+    open: false
   }
 
   componentDidMount() {
-    this.refreshPOIs();
+    let id = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id
+
+    if (id) {
+      API.getTrip(id).then(response => {
+        this.setState({ trip: response.data });
+        this.refreshPOIs(response.data.nodes[response.data.nodes.length - 1]);
+      })
+    } else {
+      this.setState({ open: true });
+    }
   }
 
   refreshPOIs(node = this.state.trip.nodes[this.state.trip.nodes.length - 1]) {
@@ -82,6 +51,24 @@ class MapPage extends Component {
       console.log(this.state);
       this.setState({ POIs: response })
     });;
+  }
+
+  setUpAuto(input) {
+    if (input) {
+      let auto = new window.google.maps.places.Autocomplete(input)
+      auto.setFields(['geometry', 'name']);
+
+      auto.addListener('place_changed', () => {
+        let location = auto.getPlace().geometry.location;
+        let node = { lat: location.lat(), lng: location.lng(), place: auto.getPlace().name }
+
+        let trip = dummyTrip;
+        trip.nodes.push(node);
+
+        this.setState({ trip, open: false });
+        this.refreshPOIs(node);
+      })
+    }
   }
 
   //handlers
@@ -115,7 +102,7 @@ class MapPage extends Component {
     return (
       <Grid container spacing={0} style={containerStyle}>
         <Grid item xs={4} md={3} style={{ position: "relative" }}>
-          <SideBar
+          {(this.state.trip) ? <SideBar
             nodes={this.state.trip.nodes}
             name={this.state.trip.name}
             notes={this.state.trip.notes}
@@ -124,15 +111,36 @@ class MapPage extends Component {
             handleTab={this.handleSideBar}
             handleName={this.makeHandler("name")}
             handleNotes={this.makeHandler("notes")}
-          />
+          /> : ""}
+
         </Grid>
         <Grid item xs={8} md={9} style={{ position: "relative" }}>
           <IvyMap
-            nodes={this.state.trip.nodes}
+            nodes={(this.state.trip) ? this.state.trip.nodes : []}
             POIs={this.state.POIs}
             POIHandle={this.POIHandler}
           />
         </Grid>
+
+
+        <Dialog
+          open={this.state.open}>
+          <DialogTitle id="form-dialog-title">Start your trip!</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Where would you like to start your trip?
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="autocomplete"
+              label="Starting Location"
+              inputRef={input => { this.setUpAuto(input) }}
+              fullWidth
+            />
+          </DialogContent>
+
+        </Dialog>
       </Grid>
     )
   }

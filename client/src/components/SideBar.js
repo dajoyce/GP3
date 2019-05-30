@@ -21,9 +21,10 @@ function info(nodes, name, handle) {
         />
       </Grid>
       {
-        nodes.map((node, index) => {
-          return (<Grid item xs={12} key={index}>
-            <PlaceTile title={node.place} lat={node.lat} lng={node.lng} />
+        nodes.map((node, index, array) => {
+          return (<Grid item xs={12} key={index} >
+            <PlaceTile title={node.place} lat={node.lat} lng={node.lng} distance={(index === 0) ? 'Start' :
+              '~' + Math.round(window.google.maps.geometry.spherical.computeDistanceBetween(new window.google.maps.LatLng(node), new window.google.maps.LatLng(array[index - 1])) / 1000) + 'km'} />
           </Grid>
           )
         })
@@ -33,13 +34,14 @@ function info(nodes, name, handle) {
   )
 }
 
-function POIs(nodes) {
+function POIs(nodes, trip) {
   return (
     <Grid container direction="column" spacing={16} alignItems="stretch">
       {nodes.map((node, index) => {
         return (
           <Grid item xs={12} key={index}>
-            <PlaceTile title={node.place} lat={node.lat} lng={node.lng} />
+            <PlaceTile title={node.place} lat={node.lat} lng={node.lng} distance={
+              '~' + Math.round(window.google.maps.geometry.spherical.computeDistanceBetween(new window.google.maps.LatLng(node), new window.google.maps.LatLng(trip[trip.length - 1])) / 1000) + 'km'} />
           </Grid>
         )
       })}
@@ -82,7 +84,7 @@ export default function SideBar(props) {
       </AppBar>
       <div style={{ padding: 16 }}>
         {props.tab === 0 && info(props.nodes, props.name, props.handleName)}
-        {props.tab === 1 && POIs(props.POIs)}
+        {props.tab === 1 && POIs(props.POIs, props.nodes)}
         {props.tab === 2 && notes(props.notes, props.handleNotes)}
       </div>
     </div >

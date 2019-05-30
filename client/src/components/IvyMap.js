@@ -35,7 +35,6 @@ export default class IvyMap extends Component {
   }
 
   componentWillUnmount() {
-    this.polyline = null;
   }
 
 
@@ -95,6 +94,14 @@ export default class IvyMap extends Component {
     this.createMarker(node, this.gMaps.SymbolPath.CIRCLE);
   }
 
+  handleMouseOver = (marker) => {
+    // console.log(marker);
+  }
+
+  handleMouseLeave = (marker) => {
+    // console.log('notover')
+  }
+
   createMarker(node, symbol = null) {
     let markerProps = {
       position: { lat: node.lat, lng: node.lng },
@@ -107,6 +114,11 @@ export default class IvyMap extends Component {
       markerProps.icon = { path: symbol, scale: 5 };
     }
 
-    return new this.gMaps.Marker(markerProps);
+    let marker = new this.gMaps.Marker(markerProps);
+
+    marker.addListener('mouseover', () => this.handleMouseOver(marker));
+    marker.addListener('mouseout', () => this.handleMouseLeave(marker));
+
+    return marker;
   }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import { makeStyles } from "@material-ui/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -45,10 +44,9 @@ const styles = theme => ({
 
 class Home extends Component {
   render() {
-    console.log(this.props);
 
     return (
-      <Grid className={this.props.classes.root} container justify="center" style={{ padding: 0 }}>
+      <Grid container justify="center" style={{ padding: 0 }}>
         <Grid item xs={12}>
           <div className={this.props.classes.body}>
             <img
@@ -78,8 +76,7 @@ class Home extends Component {
                 <br />
                 we believe in detours, not destinations. we know ivy will make you a believer too.
                 <br />
-                <Button
-                  // className={classes.button}
+                {(this.props.user) ? null : <Button
                   style={style.buttonStyle}
                   variant="contained"
                   color="primary"
@@ -88,7 +85,8 @@ class Home extends Component {
                   className={this.props.classes.button}
                 >
                   Sign Up
-                </Button>
+                </Button>}
+                
               </Typography>
             </Grid>
           </Paper>
@@ -99,7 +97,7 @@ class Home extends Component {
             <Typography variant="h5" gutterBottom style={style.typographyStyle}>
               About Our Developers
             </Typography>
-            <Grid container justify="center" spacing={32}>
+            <Grid container justify="center" spacing={16}>
               <DeveloperCards />
             </Grid>
           </Paper>

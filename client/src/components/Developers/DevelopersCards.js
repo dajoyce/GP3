@@ -1,11 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 //import { makeStyles } from "@material-ui/styles";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import PropTypes from "prop-types";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -28,31 +26,31 @@ const styles = {
 
 const developerCards = props => {
   const renderDevelopers = () =>
-    Developers.map(developer => {
+    Developers.map((developer, index) => {
       return (
-        <Grid item>
-          <Card className={props.classes.card}>
-            <CardActionArea>
-              <CardMedia
-                className={props.classes.media}
-                image={developer.imageURL}
-                title="Developer"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h6" component="h2">
-                  {developer.name}
-                </Typography>
-                <Typography component="p">{developer.about}</Typography>
-              </CardContent>
-            </CardActionArea>
+        <Grid item key={index}>
+          <Card className={props.classes.card} style={{ height: "100%", position: "relative", paddingBottom: 10 }}>
+            <CardMedia
+              className={props.classes.media}
+              image={developer.imageURL}
+              title="Developer"
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="h2">
+                {developer.name}
+              </Typography>
+              <Typography component="p">{developer.about}</Typography>
+            </CardContent>
             <CardActions>
               <Button
                 className={styles.styleButton}
                 size="small"
-                color="#6c763e"
+                color="primary"
                 href={developer.portfolioURL}
+                target="_blank"
+                style={{ position: "absolute", bottom: 0, textAlign: "center", margin: 10, fontSize: 12 }}
               >
-                Learn More About {developer.firstName} Here!
+                Learn More About {developer.firstName}
               </Button>
             </CardActions>
           </Card>

@@ -1,8 +1,6 @@
-import { Map, GoogleApiWrapper } from 'google-maps-react';
-import { Typography, Card, CardContent } from '@material-ui/core';
-
 import React, { Component } from 'react'
-
+import ReactDom from 'react-dom';
+import { Card, CardContent, Typography } from '@material-ui/core'
 
 const mapStyle = {
   position: "absolute",
@@ -18,28 +16,31 @@ const cardStyle = {
   backgroundColor: "#fefefe"
 }
 
-function PlaceTile(props) {
-  return (
-    <div >
+export default class PlaceTile extends Component {
+
+  componentDidMount() {
+    const mapNode = ReactDom.findDOMNode(this.refs.map);
+
+    this.map = new window.google.maps.Map(mapNode, {
+      center: this.props,
+      zoom: 10,
+      disableDefaultUI: true,
+      draggable: false
+    });
+  }
+
+  render() {
+    return (
       <Card style={cardStyle}>
-        <Map
-          google={props.google}
-          initialCenter={{ lat: props.lat, lng: props.lng }}
-          style={mapStyle}
-          zoom={10}
-          disableDefaultUI
-          draggable={false} />
+        <div ref="map" style={mapStyle}>
+          Loading Map...
+          </div>
         <CardContent style={{ position: "absolute", top: 100 }}>
           <Typography variant="h6">
-            {props.title}
+            {this.props.title}
           </Typography>
         </CardContent>
-      </Card >
-    </div>
-  )
+      </Card>
+    )
+  }
 }
-
-
-export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_KEY
-})(PlaceTile)

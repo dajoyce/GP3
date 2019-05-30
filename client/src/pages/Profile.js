@@ -10,23 +10,10 @@ import PlaceTile from "../components/PlaceTile";
 import { withRouter, Link } from "react-router-dom";
 import Axios from "axios";
 
-const style = {
-  userProfile: {
-    // background: "#6c763e"
-  }
-};
-
-const tripStyle = {
-  trip: {
-    background: "#6c763e",
-    marginBottom: "5%"
-  }
-};
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
-    marginTop: "10%"
+    marginTop: "5%"
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -56,7 +43,6 @@ class Profile extends Component {
           container
           spacing={24}
           className={classes.userProfile}
-          style={style.userProfile}
         >
           <Grid
             container
@@ -82,6 +68,11 @@ class Profile extends Component {
             sm={9}
             spacing={16}
           >
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <Typography variant="h2">
+                Your trips
+              </Typography>
+            </Grid>
             {
               (this.state.trips.length === 0) ?
                 (<Link to="/map" ><Button color="secondary">Create your first Trip</Button></Link>)

@@ -34,6 +34,6 @@
     "firebase": "^5.9.1",
     "if-env": "^1.0.4",
     "mongod": "^2.0.0",
-    "mongoose": "^5.4.20"
+    "mongoose": "^5.7.5"
   }
 }
